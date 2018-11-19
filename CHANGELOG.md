@@ -1,3 +1,9 @@
+#### 0.0.3 (2018-11-19)
+
+##### Build System / Dependencies
+
+* **npm:**  update build script ([f8bc54a2](https://github.com/Himenon/npm-run-script-chain/commit/f8bc54a2d6680aa8fd8c6d0be1a2ebb24d2f54c1))
+
 #### 0.0.2 (2018-11-19)
 
 ##### Chores

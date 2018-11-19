@@ -1,7 +1,6 @@
 "use strict";
 exports.__esModule = true;
 var fs = require("fs");
-var HtmlWebpackPlugin = require("html-webpack-plugin");
 var path = require("path");
 var tsconfig_paths_webpack_plugin_1 = require("tsconfig-paths-webpack-plugin");
 var ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
@@ -18,12 +17,6 @@ exports.plugins = [
         watch: exports.resolveApp("src"),
         tsconfig: exports.resolveApp("tsconfig.json"),
         tslint: exports.resolveApp("tslint.json")
-    }),
-    // https://github.com/jantimon/html-webpack-plugin/issues/218
-    new HtmlWebpackPlugin({
-        chunks: ["index"],
-        template: "./src/index.html",
-        filename: "index.html"
     }),
 ];
 exports.defaultRules = {

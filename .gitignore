@@ -10,3 +10,5 @@ private_npm_cache
 webpack.config.js
 dist
 *.js
+package
+*.tgz
