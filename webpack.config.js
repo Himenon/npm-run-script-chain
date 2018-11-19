@@ -46,13 +46,15 @@ exports.defaultRules = {
                     experimentalWatchApi: true
                 }
             },
-        ]
+        ],
+        exclude: /node_modules/
     },
     htmlLoader: {
         test: /\.html$/,
         loader: "html-loader"
     }
 };
+var OUTPUT_DIR = "dist";
 var module = [
     {
         mode: "development",
@@ -62,7 +64,7 @@ var module = [
         },
         devtool: "cheap-module-source-map",
         output: {
-            path: exports.resolveApp("lib"),
+            path: exports.resolveApp(OUTPUT_DIR),
             chunkFilename: "[name].chunk.js",
             filename: "[name].js"
         },
@@ -82,10 +84,6 @@ var module = [
             child_process: "empty",
             __dirname: false,
             __filename: false
-        },
-        devServer: {
-            contentBase: exports.resolveApp("lib"),
-            port: 3006
         }
     },
 ];

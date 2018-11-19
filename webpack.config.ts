@@ -48,12 +48,15 @@ export const defaultRules: { [key: string]: webpack.Rule } = {
         },
       },
     ],
+    exclude: /node_modules/,
   },
   htmlLoader: {
     test: /\.html$/,
     loader: "html-loader",
   },
 };
+
+const OUTPUT_DIR = "dist";
 
 const module: webpack.Configuration[] = [
   {
@@ -64,7 +67,7 @@ const module: webpack.Configuration[] = [
     },
     devtool: "cheap-module-source-map",
     output: {
-      path: resolveApp("lib"),
+      path: resolveApp(OUTPUT_DIR),
       chunkFilename: "[name].chunk.js",
       filename: "[name].js",
     },
@@ -84,10 +87,6 @@ const module: webpack.Configuration[] = [
       child_process: "empty",
       __dirname: false,
       __filename: false,
-    },
-    devServer: {
-      contentBase: resolveApp("lib"),
-      port: 3006,
     },
   },
 ];

@@ -1,7 +1,5 @@
-import Tree = require("paths-js/tree");
+const Tree = require("paths-js/tree");
 import * as React from "react";
-import * as ReactDOM from "react-dom";
-const ducks = require("../example/ducs.json");
 import { RootTree, TreeConnector, TreeItem, TreeNode } from "./types";
 
 function children(x: TreeItem): TreeItem[] {
@@ -64,14 +62,13 @@ export class App extends React.Component<AppProps, {}> {
   }
 }
 
-const props: AppProps = {
-  tree: Tree({
-    data: ducks,
-    children,
-    width: 350,
-    height: 300,
-  }),
+export const makeProps = (data: any, width: number, height: number): AppProps => {
+  return {
+    tree: Tree({
+      data,
+      children,
+      width,
+      height,
+    }),
+  };
 };
-
-const appRoot = document.getElementById("root");
-ReactDOM.render(<App {...props} />, appRoot);
