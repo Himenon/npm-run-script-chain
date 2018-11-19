@@ -11,6 +11,7 @@
     "removeComments": true,
     "sourceMap": true,
     "allowJs": false,
+    "jsx": "react",
     "moduleResolution": "node",
     "rootDir": "./src",
     "forceConsistentCasingInFileNames": true,
@@ -23,11 +24,16 @@
     "noUnusedLocals": true,
     "baseUrl": "./",
     "noLib": false,
-    "declaration": true
+    "declaration": true,
+    "typeRoots": [
+      "./node_modules/@types"
+    ],
+    "paths": {}
   },
   "include": [
     "src/**/*.ts",
-    "../scripts/**/*.ts"
+    "src/**/*.tsx",
+    "../webpack.config.ts"
   ],
   "exclude": [
     "node_modules"

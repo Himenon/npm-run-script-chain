@@ -13,18 +13,6 @@ stages:
   if: branch = master AND type = pull_request
 - name: deploy
   if: branch = master AND type = push
-notifications:
-  # https://docs.travis-ci.com/user/notifications#configuring-slack-notifications
-  slack:
-    secure: qoRGf6ZbMbhGUSZDvG2H1jugG+Ft6T0YZJe4tVL8tz+OdPYJXmf/dHmPFRLSph4cmIdgwqvgwz6wVud3KDyc7UCUSItKGbjKmRP/oDVsv4OLNlr8QRINMO4YZkxHrKQVxQXA1eXAofC9O9xQskR7ZVw6GTOVRQP6ZGG+Flmi4mG6GfC0FRdVmTbiEsm0qkWNOAgU2Ks5wNGbZeAkTdawVdAOGB1c+2kbm08nzro2cxfrpUU+E2NuoS2c3q+x8yORo1OJ7/VQziFLorLysCvZugrlUcx253IgaVrRQWjhFbjOYKSgy4UhyEL+gyGW5FEi+g9FFuI6mn6nu20sLf7jQcy6hk6cfCD6pZQX+ytdbV3pSxnKQTzhQPWS6HP8bTy76a+F7+EkhrtjFHh9KnDoKvMwiSJdwkuICUfeQTswvMFNIhLkPslkU5wGgr1dK3tKHTTjW5Kt5VxdCljmp0VPg4kRepa+ozdE3zKiMeHN9wG3Mdy7wnu2HAKm6/ke/2jiIF2Cy12NqqrNKgfLCSoNYuzRjGbYBHObb9wXrxn2lNHGTTqVEunmFwTWR4xu4xYtSuwGV/gV9FfbIXfA8VJEHtSO8R6MTMRj4wSD6g7guPER8r2/a9cObPdk+2TPCeXRqPKw5+nBAb9yI9dledQ2nQZUMA7NA0h4zrc98AEepx0='
-    on_success: change
-    on_failure: always
-    on_start: change
-    on_cancel: always
-    on_error: always
-    template:
-      - "%{repository_slug} (%{commit}) : %{message} %{foo} "
-      - "Build details: %{build_url}"
 jobs:
   include:
   - stage: lint

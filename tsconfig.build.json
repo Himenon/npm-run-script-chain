@@ -1,4 +1,4 @@
 {
   "extends": "./tsconfig",
-  "exclude": ["node_modules", "./src/**/__tests__/*", "scripts"]
+  "exclude": ["node_modules", "./src/**/__tests__/*", "scripts", "webpack.config.ts"]
 }
