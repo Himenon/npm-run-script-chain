@@ -1,11 +1,10 @@
 import * as fs from "fs";
-import * as HtmlWebpackPlugin from "html-webpack-plugin";
 import * as path from "path";
 import { TsconfigPathsPlugin } from "tsconfig-paths-webpack-plugin";
 import * as webpack from "webpack";
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 const appDirectory = fs.realpathSync(process.cwd());
-export const resolveApp = relativePath => path.resolve(appDirectory, relativePath);
+export const resolveApp = (relativePath: string) => path.resolve(appDirectory, relativePath);
 
 export const plugins: webpack.Plugin[] = [
   // new BundleAnalyzerPlugin(),
@@ -18,12 +17,6 @@ export const plugins: webpack.Plugin[] = [
     watch: resolveApp("src"),
     tsconfig: resolveApp("tsconfig.json"),
     tslint: resolveApp("tslint.json"),
-  }),
-  // https://github.com/jantimon/html-webpack-plugin/issues/218
-  new HtmlWebpackPlugin({
-    chunks: ["index"],
-    template: "./src/index.html",
-    filename: "index.html",
   }),
 ];
 
