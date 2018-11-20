@@ -9,11 +9,32 @@
 ## Usage
 
 ```sh
+npm i -g npm-run-script-chain
+```
+
+Command Line
+
+```
+nrsc -f ./example/sample-package1.json -p 8005
+# Open locahost:8005
+```
+
+Set start key to query parameter.
+
+Example: <http://localhost:8005?start=build>
+
+- [x] npm
+- [x] yarn
+- [x] npm-run-all (run-p)
+
+## Development
+
+```sh
 yarn install
 yarn start
 ```
 
-## Update
+### Package Update
 
 ```sh
 yarn outdated
@@ -23,7 +44,7 @@ yarn upgrade
 ## Publish
 
 ```
-yarn publish
+npm publish
 ```
 
 # Options
