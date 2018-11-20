@@ -6,49 +6,66 @@ export interface Package {
   };
 }
 
+export interface SplitScript {
+  key: string;
+  option: {
+    run_p: boolean;
+  };
+}
+
 const NPM_RUN = /^npm run /;
 const YARN_RUN = /^yarn run /;
 const RUN_P = /^run-p /;
-
-// start: "develop && develop:server"
-// "npm run develop && npm run develop:server" // npm runで砂漠
-// ["develop", "develop:server"]
-// package.jsonにそれぞれあるか確認
-
-// develop: "webpack --watch --config webpack.config.js"
-// "webpack --watch --config webpack.config.js"
-// ["webpack --watch --config webpack.config.js"].length === 1  ---> 現在のkeyをparentにchildrenに入れる
-
-// start の children.push({ name: "develop", children: [] })
 
 const makeTreeData = (key: string): TreeData => ({
   name: key,
   children: [],
 });
 
-const getSplitScripts = (runScriptString: string): string[] => {
-  const scripts = runScriptString.split("&&");
-  return scripts.map(script =>
-    script
+const getFormatScript = (script: string): SplitScript => {
+  return {
+    key: script
       .trim()
       .replace(NPM_RUN, "")
       .replace(RUN_P, "")
       .replace(YARN_RUN, ""),
-  );
+    option: {
+      run_p: script.trim().match(RUN_P) !== null,
+    },
+  };
 };
 
-export const makeChain = (results: TreeData, pkg: Package): void => {
-  const startKey = results.name;
+const getSplitScripts = (runScriptString: string): SplitScript[] => {
+  const scripts = runScriptString.split("&&");
+  return scripts.map(getFormatScript);
+};
+
+export const makeChain = (parentResult: TreeData, pkg: Package): void => {
+  const startKey = parentResult.name;
   if (!(startKey in pkg.scripts)) {
     return;
   }
   const runScriptString = pkg.scripts[startKey];
-  const childScriptKeys = getSplitScripts(runScriptString);
-  childScriptKeys.forEach(key => {
-    const childResult: TreeData = makeTreeData(key);
-    if (childResult.name in pkg.scripts) {
-      makeChain(childResult, pkg);
-      results.children.push(childResult);
+  const childScripts = getSplitScripts(runScriptString);
+  childScripts.forEach(childScript => {
+    const childResult = makeTreeData(childScript.key);
+    if (childScript.option.run_p) {
+      const pt = childScript.key.replace(/\*/, "(.+)");
+      const regex = new RegExp(pt);
+      const parallelScript = makeTreeData(childScript.key);
+      for (const pkgKey in pkg.scripts) {
+        if (pkgKey.match(regex) !== null) {
+          const subChildScript = makeTreeData(pkgKey);
+          makeChain(subChildScript, pkg);
+          parallelScript.children.push(subChildScript);
+        }
+      }
+      parentResult.children.push(parallelScript);
+    } else {
+      if (childResult.name in pkg.scripts) {
+        makeChain(childResult, pkg);
+        parentResult.children.push(childResult);
+      }
     }
   });
 };

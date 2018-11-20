@@ -12,14 +12,29 @@ describe("package.json parser", () => {
       e: "node",
     },
   };
+  const parallelRunScript: Package = {
+    scripts: {
+      a: "run-p build:*",
+      "build:a": "hoge1",
+      "build:b": "hoge2",
+      "build:c": "hoge3",
+    },
+  };
+  const mixRunScript: Package = {
+    scripts: {
+      a: "npm run b && run-p build:*",
+      b: "hoge",
+      "build:a": "hoge1",
+      "build:b": "hoge2",
+    },
+  };
 
   test("parse check", () => {
     const results: TreeData = {
       name: "a",
       children: [],
     };
-    makeChain(results, packageScript);
-    expect(results).toEqual({
+    const expectValue: TreeData = {
       name: "a",
       children: [
         {
@@ -41,6 +56,70 @@ describe("package.json parser", () => {
           ],
         },
       ],
-    });
+    };
+    makeChain(results, packageScript);
+    expect(results).toEqual(expectValue);
+  });
+
+  test("parallel run script", () => {
+    const results: TreeData = {
+      name: "a",
+      children: [],
+    };
+    makeChain(results, parallelRunScript);
+    const expectValue: TreeData = {
+      name: "a",
+      children: [
+        {
+          name: "build:*",
+          children: [
+            {
+              name: "build:a",
+              children: [],
+            },
+            {
+              name: "build:b",
+              children: [],
+            },
+            {
+              name: "build:c",
+              children: [],
+            },
+          ],
+        },
+      ],
+    };
+    expect(results).toEqual(expectValue);
+  });
+
+  test("mix run script", () => {
+    const results: TreeData = {
+      name: "a",
+      children: [],
+    };
+    makeChain(results, mixRunScript);
+    const expectValue: TreeData = {
+      name: "a",
+      children: [
+        {
+          name: "b",
+          children: [],
+        },
+        {
+          name: "build:*",
+          children: [
+            {
+              name: "build:a",
+              children: [],
+            },
+            {
+              name: "build:b",
+              children: [],
+            },
+          ],
+        },
+      ],
+    };
+    expect(results).toEqual(expectValue);
   });
 });
