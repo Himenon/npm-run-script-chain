@@ -1,3 +1,8 @@
+export interface TreeData {
+  name: string;
+  children: TreeData[];
+}
+
 export interface TreeConnector {
   path: any;
   centroid: any;
@@ -28,7 +33,7 @@ export interface TreeReturnValue {
 }
 
 export interface InputRef {
-  data: any;
+  data: TreeData;
   children: any;
   width: number;
   height: number;

@@ -1,5 +1,6 @@
 jest.unmock("../parser");
 import { Package, parser } from "../parser";
+import { TreeData } from "../types";
 
 describe("package.json parser", () => {
   const packageScript: Package = {
@@ -9,17 +10,25 @@ describe("package.json parser", () => {
       "develop:server": "node ./bin/cli.js",
     },
   };
-  let results: Array<{ [key: string]: string[] | string }> = [];
+  let results: TreeData;
   beforeAll(() => {
-    results = [];
+    results = {
+      name: "start",
+    };
   });
   test("parse check", () => {
-    parser(results)(packageScript, "start");
+    parser(results)(packageScript);
     expect(parser(results)).not.toBeUndefined();
-    expect(results).toEqual([
-      {
-        start: ["develop", "develop:server"],
-      },
-    ]);
+    expect(results).toEqual({
+      name: "start",
+      children: [
+        {
+          name: "develop",
+        },
+        {
+          name: "develop:server",
+        },
+      ],
+    });
   });
 });

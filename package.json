@@ -49,7 +49,7 @@
     "test": "yarn run cruiser && yarn run test:jest",
     "test:ci": "yarn run test && codecov",
     "test:jest": "jest -c ./jest.config.json",
-    "test:watch": "yarn run test:jest -- --watch",
+    "test:watch": "yarn run test:jest --watch",
     "prettier": "prettier --config .prettierrc --write src/*.{ts,tsx}",
     "version_up:major": "changelog -M && git add CHANGELOG.md && git commit -m \"chore(change-log): updated CHANGELOG.md\" && npm version major",
     "version_up:minor": "changelog -m && git add CHANGELOG.md && git commit -m \"chore(change-log): updated CHANGELOG.md\" && npm version minor",
