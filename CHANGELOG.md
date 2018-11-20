@@ -1,3 +1,9 @@
+#### 0.0.4 (2018-11-20)
+
+##### Tests
+
+* **parser:**  add parser test ([4cb8b55b](https://github.com/Himenon/npm-run-script-chain/commit/4cb8b55b5f69ba4af039486a4d56cb3ef57720c3))
+
 #### 0.0.3 (2018-11-19)
 
 ##### Build System / Dependencies

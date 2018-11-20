@@ -35,7 +35,7 @@
       "comment": "Inform in case there's orphans hiding in the code base",
       "from": {
         "orphan": true,
-        "pathNot": "\\.d\\.ts$"
+        "pathNot": "\\.d\\.ts$|__tests__/*|src/types.ts$|src/parser.ts$"
       },
       "to": {}
     },
