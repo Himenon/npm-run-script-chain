@@ -25,8 +25,7 @@ const separateRunScript = (scriptString: string): string[] => {
   return results;
 };
 
-const scriptMap: Array<{ [key: string]: string[] | string }> = [];
-export const parser = (pkg: Package, startKey: string): void => {
+export const parser = (scriptMap: Array<{ [key: string]: string[] | string }> = []) => (pkg: Package, startKey: string): void => {
   if (startKey in pkg.scripts) {
     const scriptArray = separateRunScript(pkg.scripts[startKey]);
     if (scriptArray.length === 0) {
@@ -34,7 +33,7 @@ export const parser = (pkg: Package, startKey: string): void => {
         [startKey]: pkg.scripts[startKey].split("&&").map(t => t.trim()),
       });
     } else {
-      scriptArray.forEach(scriptKey => parser(pkg, scriptKey));
+      scriptArray.forEach(scriptKey => parser(scriptMap)(pkg, scriptKey));
     }
   }
 };

@@ -30,6 +30,11 @@ jobs:
     - '9'
     - '10'
   - stage: deploy
-    script: "./scripts/deploy.sh"
+    script:
+    - yarn install
+    - yarn build
+    - echo '//registry.npmjs.org/:_authToken="${NPM_TOKEN}"' >> .npmrc
+    - npm publish
+    - cp .npmrc.template .npmrc
     node_js:
     - '10'
