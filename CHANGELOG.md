@@ -1,3 +1,12 @@
+### 0.1.0 (2018-11-20)
+
+##### New Features
+
+* **cli:**  change command nrsc ([b63c7bda](https://github.com/Himenon/npm-run-script-chain/commit/b63c7bda41ac96f425c350693e6ca6e516e3fff9))
+* **run-p:**  run-pに対応 ([dcf20a99](https://github.com/Himenon/npm-run-script-chain/commit/dcf20a991750909718290b386a7af708f04914cf))
+* **parse:**  make simple chain method ([5ee39321](https://github.com/Himenon/npm-run-script-chain/commit/5ee393217fd8488a97e201499c2eb6ff1d06b613))
+* **parser:**  treeに合わせたparserの作成 ([3e83a872](https://github.com/Himenon/npm-run-script-chain/commit/3e83a872ad4ba9b1e4b2e6eb64e19f0ea500b7f5))
+
 #### 0.0.4 (2018-11-20)
 
 ##### Tests
