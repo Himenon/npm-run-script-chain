@@ -6,6 +6,8 @@
 [![devDependencies Status](https://david-dm.org/Himenon/npm-run-script-chain/dev-status.svg)](https://david-dm.org/Himenon/npm-run-script-chain?type=dev)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
+<p style="text-align: center"><img src="https://raw.githubusercontent.com/Himenon/npm-run-script-chain/master/images/example.png" alt="Example View" /></p>
+
 ## Usage
 
 ```sh
