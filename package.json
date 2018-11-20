@@ -35,7 +35,7 @@
     "build:webpack": "webpack --config=./webpack.config.js --mode=production",
     "ci:notify:release": "ts-node ./scripts/notify.ts",
     "clean": "rimraf ./lib && rimraf ./dist",
-    "cli": "chmod +x ./lib/cli.js && node ./lib/cli.js -f ./example/ducks.json -p 8005",
+    "cli": "chmod +x ./lib/cli.js && node ./lib/cli.js -f ./example/sample-package1.json -p 8005",
     "commitmsg": "commitlint -e $GIT_PARAMS",
     "cruiser": "dependency-cruiser --validate .dependency-cruiser.json src",
     "dev:cli": "tsc -p tsconfig.cli.json --watch",

@@ -1,0 +1,10 @@
+{
+  "scripts": {
+    "build": "yarn run clean && yarn run prepare && run-p build:*",
+    "clean": "rimraf ./lib",
+    "prepare": "hoge",
+    "build:a": "build a",
+    "build:b": "build b",
+    "build:c": "build c"
+  }
+}

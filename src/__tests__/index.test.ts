@@ -1,32 +1,44 @@
 jest.unmock("../parser");
-import { Package, parser } from "../parser";
+import { makeChain, Package } from "../parser";
 import { TreeData } from "../types";
 
 describe("package.json parser", () => {
   const packageScript: Package = {
     scripts: {
-      start: "develop && develop:server",
-      develop: "webpack --watch --config webpack.config.js",
-      "develop:server": "node ./bin/cli.js",
+      a: "npm run b",
+      b: "npm run c && npm run d",
+      c: "webpack",
+      d: "npm run e",
+      e: "node",
     },
   };
-  let results: TreeData;
-  beforeAll(() => {
-    results = {
-      name: "start",
-    };
-  });
+
   test("parse check", () => {
-    parser(results)(packageScript);
-    expect(parser(results)).not.toBeUndefined();
+    const results: TreeData = {
+      name: "a",
+      children: [],
+    };
+    makeChain(results, packageScript);
     expect(results).toEqual({
-      name: "start",
+      name: "a",
       children: [
         {
-          name: "develop",
-        },
-        {
-          name: "develop:server",
+          name: "b",
+          children: [
+            {
+              name: "c",
+              children: [],
+            },
+            {
+              name: "d",
+              children: [
+                {
+                  name: "e",
+                  children: [],
+                },
+              ],
+            },
+          ],
         },
       ],
     });
