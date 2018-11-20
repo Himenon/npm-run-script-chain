@@ -7,6 +7,8 @@ import { renderToStaticMarkup } from "react-dom/server";
 import * as url from "url";
 import { getHtmlTemplate } from "./htmlTemplate";
 import { App, AppProps, makeProps } from "./index";
+import { makeChain, Package } from "./parser";
+import { TreeData } from "./types";
 
 export class Server {
   private app: http.Server;
@@ -16,14 +18,23 @@ export class Server {
     this.filePath = path.join(basePath, inputFile);
     this.app = http.createServer((req: http.IncomingMessage, res: http.ServerResponse) => {
       // TODO expressならもう少し簡単にかけそう
+      let startKey: string = "Please set Query Params `?start=any`";
       if (req.url) {
-        const { pathname } = url.parse(req.url);
+        const { pathname, query } = url.parse(req.url, true);
+        if (query && query.start && typeof query.start === "string") {
+          startKey = query.start;
+        }
         if (pathname && pathname.match(/^\/dist\//) && this.loadDistDirectoryFile(res, pathname)) {
           return;
         }
       }
       const jsonData = this.getPackageJson();
-      const props: AppProps = makeProps(jsonData, 350, 300);
+      const chainData: TreeData = {
+        name: startKey,
+        children: [],
+      };
+      makeChain(chainData, jsonData);
+      const props: AppProps = makeProps(chainData, 350, 300);
       const html = renderToStaticMarkup(<App {...props} />);
       res.write(getHtmlTemplate(html));
       res.end();
@@ -54,7 +65,7 @@ export class Server {
     return false;
   }
 
-  private getPackageJson() {
+  private getPackageJson(): Package {
     return require(this.filePath);
   }
 }

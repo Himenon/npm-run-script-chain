@@ -1,25 +1,125 @@
 jest.unmock("../parser");
-import { Package, parser } from "../parser";
+import { makeChain, Package } from "../parser";
+import { TreeData } from "../types";
 
 describe("package.json parser", () => {
   const packageScript: Package = {
     scripts: {
-      start: "develop && develop:server",
-      develop: "webpack --watch --config webpack.config.js",
-      "develop:server": "node ./bin/cli.js",
+      a: "npm run b",
+      b: "npm run c && npm run d",
+      c: "webpack",
+      d: "npm run e",
+      e: "node",
     },
   };
-  let results: Array<{ [key: string]: string[] | string }> = [];
-  beforeAll(() => {
-    results = [];
-  });
+  const parallelRunScript: Package = {
+    scripts: {
+      a: "run-p build:*",
+      "build:a": "hoge1",
+      "build:b": "hoge2",
+      "build:c": "hoge3",
+    },
+  };
+  const mixRunScript: Package = {
+    scripts: {
+      a: "npm run b && run-p build:*",
+      b: "hoge",
+      "build:a": "hoge1",
+      "build:b": "hoge2",
+    },
+  };
+
   test("parse check", () => {
-    parser(results)(packageScript, "start");
-    expect(parser(results)).not.toBeUndefined();
-    expect(results).toEqual([
-      {
-        start: ["develop", "develop:server"],
-      },
-    ]);
+    const results: TreeData = {
+      name: "a",
+      children: [],
+    };
+    const expectValue: TreeData = {
+      name: "a",
+      children: [
+        {
+          name: "b",
+          children: [
+            {
+              name: "c",
+              children: [],
+            },
+            {
+              name: "d",
+              children: [
+                {
+                  name: "e",
+                  children: [],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    };
+    makeChain(results, packageScript);
+    expect(results).toEqual(expectValue);
+  });
+
+  test("parallel run script", () => {
+    const results: TreeData = {
+      name: "a",
+      children: [],
+    };
+    makeChain(results, parallelRunScript);
+    const expectValue: TreeData = {
+      name: "a",
+      children: [
+        {
+          name: "build:*",
+          children: [
+            {
+              name: "build:a",
+              children: [],
+            },
+            {
+              name: "build:b",
+              children: [],
+            },
+            {
+              name: "build:c",
+              children: [],
+            },
+          ],
+        },
+      ],
+    };
+    expect(results).toEqual(expectValue);
+  });
+
+  test("mix run script", () => {
+    const results: TreeData = {
+      name: "a",
+      children: [],
+    };
+    makeChain(results, mixRunScript);
+    const expectValue: TreeData = {
+      name: "a",
+      children: [
+        {
+          name: "b",
+          children: [],
+        },
+        {
+          name: "build:*",
+          children: [
+            {
+              name: "build:a",
+              children: [],
+            },
+            {
+              name: "build:b",
+              children: [],
+            },
+          ],
+        },
+      ],
+    };
+    expect(results).toEqual(expectValue);
   });
 });

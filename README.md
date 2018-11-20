@@ -6,14 +6,37 @@
 [![devDependencies Status](https://david-dm.org/Himenon/npm-run-script-chain/dev-status.svg)](https://david-dm.org/Himenon/npm-run-script-chain?type=dev)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
+<p style="text-align: center"><img src="https://raw.githubusercontent.com/Himenon/npm-run-script-chain/master/images/example.png" alt="Example View" /></p>
+
 ## Usage
+
+```sh
+npm i -g npm-run-script-chain
+```
+
+Command Line
+
+```
+nrsc -f ./example/sample-package1.json -p 8005
+# Open locahost:8005
+```
+
+Set start key to query parameter.
+
+Example: <http://localhost:8005?start=build>
+
+- [x] npm
+- [x] yarn
+- [x] npm-run-all (run-p)
+
+## Development
 
 ```sh
 yarn install
 yarn start
 ```
 
-## Update
+### Package Update
 
 ```sh
 yarn outdated
@@ -23,7 +46,7 @@ yarn upgrade
 ## Publish
 
 ```
-yarn publish
+npm publish
 ```
 
 # Options
