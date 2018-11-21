@@ -10,7 +10,7 @@ stages:
 - name: compile
   if: branch = master AND type = pull_request
 - name: test
-  if: branch = master AND type = pull_request
+  if: branch = master
 - name: deploy
   if: branch = master AND type = push
 jobs:
@@ -24,7 +24,7 @@ jobs:
     node_js:
     - '10'
   - stage: test
-    script: yarn test
+    script: yarn run test:ci
     node_js:
     - '8'
     - '9'

@@ -7,6 +7,7 @@ import { renderToStaticMarkup } from "react-dom/server";
 import * as url from "url";
 import { getHtmlTemplate } from "./htmlTemplate";
 import { App, AppProps, makeProps } from "./index";
+import { AnchorProps, makeAnchorList } from "./menu";
 import { makeChain, Package } from "./parser";
 import { TreeData } from "./types";
 
@@ -28,13 +29,24 @@ export class Server {
           return;
         }
       }
-      const jsonData = this.getPackageJson();
+      const pkg = this.getPackageJson();
+      const hostname = req.headers.host;
+      const anchors: AnchorProps[] = Object.keys(pkg.scripts).map(key => ({
+        text: key,
+        href: `http://${hostname}/?start=${key}`,
+      }));
+      if (!(startKey in pkg.scripts)) {
+        const menu = renderToStaticMarkup(makeAnchorList(anchors));
+        res.write(getHtmlTemplate(menu));
+        res.end();
+        return;
+      }
       const chainData: TreeData = {
         name: startKey,
         children: [],
       };
-      makeChain(chainData, jsonData);
-      const props: AppProps = makeProps(chainData, 350, 300);
+      makeChain(chainData, pkg);
+      const props: AppProps = makeProps(chainData, { width: 350, height: 300 }, anchors);
       const html = renderToStaticMarkup(<App {...props} />);
       res.write(getHtmlTemplate(html));
       res.end();

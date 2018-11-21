@@ -17,7 +17,7 @@ export interface TreeItem {
 }
 
 export interface TreeNode {
-  point: any;
+  point: Array<[number, number]>;
   item: TreeItem;
 }
 
