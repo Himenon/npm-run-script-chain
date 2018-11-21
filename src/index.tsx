@@ -1,29 +1,39 @@
 const Tree = require("paths-js/tree");
 import * as React from "react";
+import { AnchorProps, makeAnchorList } from "./menu";
 import { RootTree, TreeConnector, TreeItem, TreeNode } from "./types";
 
-function children(x: TreeItem): TreeItem[] {
+const children = (x: TreeItem): TreeItem[] => {
   if (x.collapsed) {
     return [];
   } else {
     return x.children || [];
   }
-}
+};
 
 export interface AppProps {
   tree: RootTree;
+  size: {
+    width: number;
+    height: number;
+  };
+  anchors: AnchorProps[];
 }
 
 export class App extends React.Component<AppProps, {}> {
   public render() {
+    const anchorList = makeAnchorList(this.props.anchors);
     return (
-      <div id="tree">
-        <svg width="500" height="380">
-          <g transform="translate(80, 10)">
-            {this.curves()}
-            {this.nodes()}
-          </g>
-        </svg>
+      <div id="root">
+        {anchorList}
+        <div id="tree">
+          <svg width="100%" height="100%">
+            <g transform="translate(80, 10)">
+              {this.curves()}
+              {this.nodes()}
+            </g>
+          </svg>
+        </div>
       </div>
     );
   }
@@ -62,13 +72,15 @@ export class App extends React.Component<AppProps, {}> {
   }
 }
 
-export const makeProps = (data: any, width: number, height: number): AppProps => {
+export const makeProps = (data: any, size: { width: number; height: number }, anchors: AnchorProps[]): AppProps => {
   return {
     tree: Tree({
       data,
       children,
-      width,
-      height,
+      width: size.width,
+      height: size.height,
     }),
+    size,
+    anchors,
   };
 };
