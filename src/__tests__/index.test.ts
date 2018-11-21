@@ -28,6 +28,14 @@ describe("package.json parser", () => {
       "build:b": "hoge2",
     },
   };
+  const parallelRunScript2: Package = {
+    scripts: {
+      a: "run-p build1:a build2:b build3:c",
+      "build1:a": "hoge1",
+      "build2:b": "hoge2",
+      "build3:c": "hoge3",
+    },
+  };
 
   test("parse check", () => {
     const results: TreeData = {
@@ -86,6 +94,32 @@ describe("package.json parser", () => {
               children: [],
             },
           ],
+        },
+      ],
+    };
+    expect(results).toEqual(expectValue);
+  });
+
+  test("parallel run script2", () => {
+    const results: TreeData = {
+      name: "a",
+      children: [],
+    };
+    makeChain(results, parallelRunScript2);
+    const expectValue: TreeData = {
+      name: "a",
+      children: [
+        {
+          name: "build1:a",
+          children: [],
+        },
+        {
+          name: "build2:b",
+          children: [],
+        },
+        {
+          name: "build3:c",
+          children: [],
         },
       ],
     };
