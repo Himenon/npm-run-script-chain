@@ -24,6 +24,7 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "bin": {
+    "npm-run-script-chain": "./lib/cli.js",
     "nrsc": "./lib/cli.js"
   },
   "directories": {
