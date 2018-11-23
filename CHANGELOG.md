@@ -1,3 +1,10 @@
+#### 0.1.2 (2018-11-23)
+
+##### Chores
+
+* **updater:**  close [#10](https://github.com/Himenon/npm-run-script-chain/pull/10) ([693cd3cb](https://github.com/Himenon/npm-run-script-chain/commit/693cd3cb74803db42053dbc41b1abf102bbf6b26))
+* **package:**  update dependencies version ([a6a3ac8b](https://github.com/Himenon/npm-run-script-chain/commit/a6a3ac8bf1793cece8fd64dd149c27b20815cbed))
+
 #### 0.1.1 (2018-11-21)
 
 ##### Chores
