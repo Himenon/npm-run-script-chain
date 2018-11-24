@@ -1,6 +1,6 @@
 const Tree = require("paths-js/tree");
 import * as React from "react";
-import { AnchorProps, makeAnchorList } from "./menu";
+import { AnchorProps, makeAnchorList, makeNodeComponent } from "./components";
 import { RootTree, TreeConnector, TreeItem, TreeNode } from "./types";
 
 const children = (x: TreeItem): TreeItem[] => {
@@ -52,16 +52,7 @@ export class App extends React.Component<AppProps, {}> {
         n.item.collapsed = !n.item.collapsed;
         this.forceUpdate();
       };
-      const text: any =
-        children(n.item).length > 0 ? (
-          <text transform="translate(-10,0)" textAnchor="end">
-            {n.item.name}
-          </text>
-        ) : (
-          <text transform="translate(10,0)" textAnchor="start">
-            {n.item.name}
-          </text>
-        );
+      const text: any = children(n.item).length > 0 ? makeNodeComponent(n, { x: -10, y: 0 }) : makeNodeComponent(n, { x: 10, y: 0 });
       return (
         <g transform={position} key={`node-${idx}`}>
           <circle fill="white" stroke="black" r="5" cx="0" cy="0" onClick={toggle} />

@@ -1,4 +1,5 @@
 import * as React from "react";
+import { TreeNode } from "./types";
 
 export interface AnchorProps {
   text: string;
@@ -12,4 +13,12 @@ export const makeAnchorList = (props: AnchorProps[]): React.ReactElement<any> =>
     </li>
   ));
   return <ul id="menu">{items}</ul>;
+};
+
+export const makeNodeComponent = (props: TreeNode, pos: { x: number; y: number }): React.ReactElement<any> => {
+  return (
+    <text transform={`translate(${pos.x},${pos.y})`} textAnchor="end">
+      <a href={`?start=${props.item.name}`}>{props.item.name}</a>
+    </text>
+  );
 };

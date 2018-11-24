@@ -1,3 +1,9 @@
+### 0.2.0 (2018-11-24)
+
+##### New Features
+
+* **link:**  nodeにリンクを追加 ([83c6d2e8](https://github.com/Himenon/npm-run-script-chain/commit/83c6d2e8f7bdbdf29ef57b15c7d908b979dbe931))
+
 #### 0.1.2 (2018-11-23)
 
 ##### Chores
