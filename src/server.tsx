@@ -5,9 +5,9 @@ import * as path from "path";
 import * as React from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import * as url from "url";
+import { AnchorProps, makeAnchorList } from "./components";
 import { getHtmlTemplate } from "./htmlTemplate";
 import { App, AppProps, makeProps } from "./index";
-import { AnchorProps, makeAnchorList } from "./menu";
 import { makeChain, Package } from "./parser";
 import { TreeData } from "./types";
 
