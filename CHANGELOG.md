@@ -1,3 +1,9 @@
+#### 0.2.1 (2018-11-24)
+
+##### Bug Fixes
+
+* **circle-script:**  prevention of circulation ([1cf5ee79](https://github.com/Himenon/npm-run-script-chain/commit/1cf5ee7934da009113cc5482659eb84ab67a253f))
+
 ### 0.2.0 (2018-11-24)
 
 ##### New Features

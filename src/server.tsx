@@ -14,6 +14,7 @@ import { TreeData } from "./types";
 export class Server {
   private app: http.Server;
   private filePath: string;
+  private START_QUERY_KEY = "start";
 
   constructor(private basePath: string, inputFile: string) {
     this.filePath = path.join(basePath, inputFile);
@@ -22,8 +23,9 @@ export class Server {
       let startKey: string = "Please set Query Params `?start=any`";
       if (req.url) {
         const { pathname, query } = url.parse(req.url, true);
-        if (query && query.start && typeof query.start === "string") {
-          startKey = query.start;
+        if (query && query[this.START_QUERY_KEY]) {
+          const key = query[this.START_QUERY_KEY];
+          startKey = typeof key === "string" ? key : startKey;
         }
         if (pathname && pathname.match(/^\/dist\//) && this.loadDistDirectoryFile(res, pathname)) {
           return;
