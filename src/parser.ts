@@ -48,7 +48,7 @@ const getSplitScripts = (runScriptString: string, splitPattern: string = "&&"): 
   return scripts.map(getFormatScript);
 };
 
-export const makeChildChain = (parentResult: TreeData, scripts: SplitScript[], pkg: Package) => {
+export const makeChildChain = (parentResult: TreeData, scripts: SplitScript[], pkg: Package, deleteKeys: string[]) => {
   scripts.forEach(childScript => {
     const childResult = makeTreeData(childScript.key);
     // build:* などの正規表現にマッチした場合
@@ -59,27 +59,28 @@ export const makeChildChain = (parentResult: TreeData, scripts: SplitScript[], p
       for (const pkgKey in pkg.scripts) {
         if (pkgKey.match(regex) !== null) {
           const subChildScript = makeTreeData(pkgKey);
-          makeChain(subChildScript, pkg);
+          makeChain(subChildScript, pkg, deleteKeys);
           parallelScript.children.push(subChildScript);
         }
       }
       parentResult.children.push(parallelScript);
     } else if (childScript.option.run_p && childScript.key.match(/\*/) === null) {
       const childScripts = getSplitScripts(childScript.key, " ");
-      makeChildChain(parentResult, childScripts, pkg);
+      makeChildChain(parentResult, childScripts, pkg, deleteKeys);
     } else if (childResult.name in pkg.scripts) {
-      makeChain(childResult, pkg);
+      makeChain(childResult, pkg, deleteKeys);
       parentResult.children.push(childResult);
     }
   });
 };
 
-export const makeChain = (parentResult: TreeData, pkg: Package): void => {
+export const makeChain = (parentResult: TreeData, pkg: Package, deleteKeys: string[] = []): void => {
   const startKey = parentResult.name;
-  if (!(startKey in pkg.scripts)) {
+  if (!(startKey in pkg.scripts) || deleteKeys.includes(startKey)) {
     return;
   }
+  deleteKeys.push(startKey);
   const runScriptString = pkg.scripts[startKey];
   const childScripts = getSplitScripts(runScriptString);
-  makeChildChain(parentResult, childScripts, pkg);
+  makeChildChain(parentResult, childScripts, pkg, deleteKeys);
 };
