@@ -1,6 +1,7 @@
 export interface TreeData {
   name: string;
-  children: TreeData[];
+  script: string;
+  children?: TreeData[];
 }
 
 export interface TreeConnector {
@@ -10,8 +11,7 @@ export interface TreeConnector {
   connector: TreeConnector;
 }
 
-export interface TreeItem {
-  name: string;
+export interface TreeItem extends TreeData {
   collapsed: boolean;
   children?: TreeItem[];
 }

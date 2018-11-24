@@ -8,6 +8,7 @@ export interface Package {
 
 export interface SplitScript {
   key: string;
+  script: string;
   option: {
     run_p: boolean;
   };
@@ -17,8 +18,9 @@ const NPM_RUN = /^npm run /;
 const YARN_RUN = /^yarn run /;
 const RUN_P = /^run-p /;
 
-const makeTreeData = (key: string): TreeData => ({
+const makeTreeData = (key: string, script: string): TreeData => ({
   name: key,
+  script,
   children: [],
 });
 
@@ -33,6 +35,7 @@ const getFormatScript = (script: string): SplitScript => {
       .replace(NPM_RUN, "")
       .replace(RUN_P, "")
       .replace(YARN_RUN, ""),
+    script: script.trim(),
     option: {
       run_p: script.trim().match(RUN_P) !== null,
     },
@@ -50,26 +53,38 @@ const getSplitScripts = (runScriptString: string, splitPattern: string = "&&"): 
 
 export const makeChildChain = (parentResult: TreeData, scripts: SplitScript[], pkg: Package, deleteKeys: string[]) => {
   scripts.forEach(childScript => {
-    const childResult = makeTreeData(childScript.key);
+    const childResult = makeTreeData(childScript.key, childScript.script);
     // build:* などの正規表現にマッチした場合
     if (childScript.option.run_p && childScript.key.match(/\*/) !== null) {
       const pt = childScript.key.replace(/\*/, "(.+)");
       const regex = new RegExp(pt);
-      const parallelScript = makeTreeData(childScript.key);
+      const parallelScript = makeTreeData(childScript.key, childScript.script);
       for (const pkgKey in pkg.scripts) {
         if (pkgKey.match(regex) !== null) {
-          const subChildScript = makeTreeData(pkgKey);
+          const subChildScript = makeTreeData(pkgKey, pkg.scripts[pkgKey]);
           makeChain(subChildScript, pkg, deleteKeys);
-          parallelScript.children.push(subChildScript);
+          if (parallelScript.children) {
+            parallelScript.children.push(subChildScript);
+          } else {
+            parallelScript.children = [subChildScript];
+          }
         }
       }
-      parentResult.children.push(parallelScript);
+      if (parentResult.children) {
+        parentResult.children.push(parallelScript);
+      } else {
+        parentResult.children = [parallelScript];
+      }
     } else if (childScript.option.run_p && childScript.key.match(/\*/) === null) {
       const childScripts = getSplitScripts(childScript.key, " ");
       makeChildChain(parentResult, childScripts, pkg, deleteKeys);
     } else if (childResult.name in pkg.scripts) {
       makeChain(childResult, pkg, deleteKeys);
-      parentResult.children.push(childResult);
+      if (parentResult.children) {
+        parentResult.children.push(childResult);
+      } else {
+        parentResult.children = [childResult];
+      }
     }
   });
 };
@@ -78,6 +93,9 @@ export const makeChain = (parentResult: TreeData, pkg: Package, deleteKeys: stri
   const startKey = parentResult.name;
   if (!(startKey in pkg.scripts) || deleteKeys.includes(startKey)) {
     return;
+  }
+  if (!parentResult.children) {
+    parentResult.children = [];
   }
   deleteKeys.push(startKey);
   const runScriptString = pkg.scripts[startKey];

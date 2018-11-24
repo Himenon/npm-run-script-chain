@@ -45,7 +45,7 @@ export class Server {
       }
       const chainData: TreeData = {
         name: startKey,
-        children: [],
+        script: pkg.scripts[startKey],
       };
       makeChain(chainData, pkg);
       const props: AppProps = makeProps(chainData, { width: 350, height: 300 }, anchors);

@@ -1,15 +1,7 @@
 const Tree = require("paths-js/tree");
 import * as React from "react";
-import { AnchorProps, makeAnchorList, makeNodeComponent } from "./components";
-import { RootTree, TreeConnector, TreeItem, TreeNode } from "./types";
-
-const children = (x: TreeItem): TreeItem[] => {
-  if (x.collapsed) {
-    return [];
-  } else {
-    return x.children || [];
-  }
-};
+import { AnchorProps, children, makeAnchorList, makeNodeComponent } from "./components";
+import { RootTree, TreeConnector, TreeNode } from "./types";
 
 export interface AppProps {
   tree: RootTree;
@@ -46,19 +38,11 @@ export class App extends React.Component<AppProps, {}> {
 
   private nodes() {
     return this.props.tree.nodes.map((n: TreeNode, idx: number) => {
-      const position = "translate(" + n.point[0] + "," + n.point[1] + ")";
-
       const toggle = () => {
         n.item.collapsed = !n.item.collapsed;
         this.forceUpdate();
       };
-      const text: any = children(n.item).length > 0 ? makeNodeComponent(n, { x: -10, y: 0 }) : makeNodeComponent(n, { x: 10, y: 0 });
-      return (
-        <g transform={position} key={`node-${idx}`}>
-          <circle fill="white" stroke="black" r="5" cx="0" cy="0" onClick={toggle} />
-          {text}
-        </g>
-      );
+      return makeNodeComponent(n, idx, toggle);
     });
   }
 }

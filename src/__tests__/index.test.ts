@@ -40,23 +40,29 @@ describe("package.json parser", () => {
   test("parse check", () => {
     const results: TreeData = {
       name: "a",
+      script: "npm run b",
       children: [],
     };
     const expectValue: TreeData = {
       name: "a",
+      script: "npm run b",
       children: [
         {
           name: "b",
+          script: "npm run c && npm run d",
           children: [
             {
               name: "c",
+              script: "webpack",
               children: [],
             },
             {
               name: "d",
+              script: "npm run e",
               children: [
                 {
                   name: "e",
+                  script: "node",
                   children: [],
                 },
               ],
@@ -72,25 +78,31 @@ describe("package.json parser", () => {
   test("parallel run script", () => {
     const results: TreeData = {
       name: "a",
+      script: "run-p build:*",
       children: [],
     };
     makeChain(results, parallelRunScript);
     const expectValue: TreeData = {
       name: "a",
+      script: "run-p build:*",
       children: [
         {
           name: "build:*",
+          script: "run-p build:*",
           children: [
             {
               name: "build:a",
+              script: "hoge1",
               children: [],
             },
             {
               name: "build:b",
+              script: "hoge2",
               children: [],
             },
             {
               name: "build:c",
+              script: "hoge3",
               children: [],
             },
           ],
@@ -103,22 +115,27 @@ describe("package.json parser", () => {
   test("parallel run script2", () => {
     const results: TreeData = {
       name: "a",
+      script: "run-p build1:a build2:b build3:c",
       children: [],
     };
     makeChain(results, parallelRunScript2);
     const expectValue: TreeData = {
       name: "a",
+      script: "run-p build1:a build2:b build3:c",
       children: [
         {
           name: "build1:a",
+          script: "hoge1",
           children: [],
         },
         {
           name: "build2:b",
+          script: "hoge2",
           children: [],
         },
         {
           name: "build3:c",
+          script: "hoge3",
           children: [],
         },
       ],
@@ -129,25 +146,31 @@ describe("package.json parser", () => {
   test("mix run script", () => {
     const results: TreeData = {
       name: "a",
+      script: "npm run b && run-p build:*",
       children: [],
     };
     makeChain(results, mixRunScript);
     const expectValue: TreeData = {
       name: "a",
+      script: "npm run b && run-p build:*",
       children: [
         {
           name: "b",
+          script: "hoge",
           children: [],
         },
         {
           name: "build:*",
+          script: "run-p build:*", // TODO
           children: [
             {
               name: "build:a",
+              script: "hoge1",
               children: [],
             },
             {
               name: "build:b",
+              script: "hoge2",
               children: [],
             },
           ],

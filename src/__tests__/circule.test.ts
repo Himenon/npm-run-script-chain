@@ -21,14 +21,17 @@ describe("Loop Script", () => {
   test("npm run a -> b -> a", () => {
     const results: TreeData = {
       name: "a",
+      script: "run-p build:*",
       children: [],
     };
     const expectValue: TreeData = {
       name: "a",
+      script: "npm run b",
       children: [
         {
           name: "b",
-          children: [{ name: "a", children: [] }],
+          script: "npm run a",
+          children: [{ name: "a", script: "npm run b", children: [] }],
         },
       ],
     };
@@ -36,31 +39,38 @@ describe("Loop Script", () => {
     expect(results).toEqual(expectValue);
   });
 
-  test("npm run a -> b -> a", () => {
+  test("run-p a -> b -> a", () => {
     const results: TreeData = {
       name: "a",
+      script: "run-p build:*",
       children: [],
     };
     const expectValue: TreeData = {
       name: "a",
+      script: "run-p build:*",
       children: [
         {
           name: "build:*",
+          script: "run-p build:*",
           children: [
             {
               name: "build:a",
+              script: "npm run a",
               children: [
                 {
                   name: "a",
+                  script: "npm run a",
                   children: [],
                 },
               ],
             },
             {
               name: "build:b",
+              script: "npm run a",
               children: [
                 {
                   name: "a",
+                  script: "npm run a",
                   children: [],
                 },
               ],
