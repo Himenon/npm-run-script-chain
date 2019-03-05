@@ -7,7 +7,7 @@ import { renderToStaticMarkup } from "react-dom/server";
 import * as url from "url";
 import { AnchorProps, makeAnchorList } from "./components";
 import { getHtmlTemplate } from "./htmlTemplate";
-import { App, AppProps, makeProps } from "./index";
+import { App, AppProps } from "./index";
 import { makeChain, Package } from "./parser";
 import { TreeData } from "./types";
 
@@ -48,7 +48,11 @@ export class Server {
         script: pkg.scripts[startKey],
       };
       makeChain(chainData, pkg);
-      const props: AppProps = makeProps(chainData, { width: 350, height: 300 }, anchors);
+      const props: AppProps = {
+        dendrogram: {
+          data: chainData,
+        },
+      };
       const html = renderToStaticMarkup(<App {...props} />);
       res.write(getHtmlTemplate(html));
       res.end();
