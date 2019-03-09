@@ -3,8 +3,7 @@
     "tslint:recommended",
     "tslint:latest",
     "tslint-plugin-prettier",
-    "tslint-config-prettier",
-    "tslint-react"
+    "tslint-config-prettier"
   ],
   "linterOptions": {
     "exclude": [

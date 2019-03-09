@@ -5,9 +5,9 @@ import * as path from "path";
 import * as React from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import * as url from "url";
-import { AnchorProps, makeAnchorList } from "./components";
+import * as App from "./App";
+import * as Anchor from "./components/Anchor";
 import { getHtmlTemplate } from "./htmlTemplate";
-import { App, AppProps, makeProps } from "./index";
 import { makeChain, Package } from "./parser";
 import { TreeData } from "./types";
 
@@ -33,23 +33,26 @@ export class Server {
       }
       const pkg = this.getPackageJson();
       const hostname = req.headers.host;
-      const anchors: AnchorProps[] = Object.keys(pkg.scripts).map(key => ({
+      const anchors: Anchor.Props[] = Object.keys(pkg.scripts).map(key => ({
         text: key,
         href: `http://${hostname}/?start=${key}`,
       }));
       if (!(startKey in pkg.scripts)) {
-        const menu = renderToStaticMarkup(makeAnchorList(anchors));
+        const menu = renderToStaticMarkup(Anchor.createAnchors(anchors));
         res.write(getHtmlTemplate(menu));
         res.end();
         return;
       }
-      const chainData: TreeData = {
+      const treeData: TreeData = {
         name: startKey,
         children: [],
       };
-      makeChain(chainData, pkg);
-      const props: AppProps = makeProps(chainData, { width: 350, height: 300 }, anchors);
-      const html = renderToStaticMarkup(<App {...props} />);
+      makeChain(treeData, pkg);
+      const props: App.Props = {
+        treeData,
+        anchors,
+      };
+      const html = renderToStaticMarkup(<App.Component {...props} />);
       res.write(getHtmlTemplate(html));
       res.end();
     });
@@ -61,8 +64,10 @@ export class Server {
       const addr = server.address();
       if (typeof addr === "string") {
         return `http://localhost:${addr}/`;
-      } else {
+      } else if (addr) {
         return `http://localhost:${addr.port}/`;
+      } else {
+        return `http://localhost:8000/`;
       }
     } catch (err) {
       console.log(err);

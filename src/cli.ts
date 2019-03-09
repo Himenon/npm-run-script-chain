@@ -2,11 +2,7 @@
 
 import * as meow from "meow";
 import opn = require("opn");
-import { UpdateNotifier } from "update-notifier";
 import { Server } from "./server";
-
-const pkg = require("../package.json");
-new UpdateNotifier({ pkg }).notify();
 
 const cli = meow(
   `
