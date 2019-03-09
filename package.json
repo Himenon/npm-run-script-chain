@@ -2,7 +2,10 @@
   "name": "npm-run-script-chain",
   "version": "0.0.1",
   "description": "run-script chain",
-  "keywords": [],
+  "keywords": [
+    "chain",
+    "package.json"
+  ],
   "homepage": "https://github.com/git+https://github.com/Himenon/npm-run-script-chain.git#readme",
   "bugs": {
     "url": "https://github.com/git+https://github.com/Himenon/npm-run-script-chain.git/issues"
@@ -28,11 +31,14 @@
     "lib": "lib"
   },
   "scripts": {
-    "build": "yarn run clean && yarn run build:scripts && node scripts/build.js",
+    "build": "yarn run clean && yarn run build:lib && yarn run build:scripts && node scripts/build.js",
+    "build:lib": "tsc -p tsconfig.build.json",
     "build:scripts": "tsc -p tsconfig.scripts.json",
     "ci:notify:release": "ts-node ./scripts/notify.ts",
     "clean": "rimraf ./lib ./build",
     "cli": "node ./lib/cli.js",
+    "cli1": "chmod +x ./lib/cli.js && node ./lib/cli.js -f ./example/run-p-package.json -p 8005",
+    "cli2": "chmod +x ./lib/cli.js && node ./lib/cli.js -f ./example/circle-package.json -p 8006",
     "commitmsg": "commitlint -e $GIT_PARAMS",
     "cruiser": "dependency-cruiser --validate .dependency-cruiser.json src",
     "develop": "yarn run build:scripts && yarn run server:dev",
@@ -50,6 +56,12 @@
     "version_up:minor": "changelog -m && git add CHANGELOG.md && git commit -m \"chore(change-log): updated CHANGELOG.md\" && npm version minor",
     "version_up:patch": "changelog -p && git add CHANGELOG.md && git commit -m \"chore(change-log): updated CHANGELOG.md\" && npm version patch"
   },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
   "dependencies": {
     "d3": "^5.9.1",
     "meow": "^5.0.0",
@@ -105,6 +117,7 @@
     "jsdom": "^13.2.0",
     "lint-staged": "^8.1.5",
     "mini-css-extract-plugin": "^0.5.0",
+    "node-sass": "^4.11.0",
     "optimize-css-assets-webpack-plugin": "^5.0.1",
     "pnp-webpack-plugin": "^1.4.1",
     "postcss-loader": "^3.0.0",
@@ -129,11 +142,5 @@
     "webpack": "^4.29.6",
     "webpack-dev-server": "^3.2.1",
     "webpack-manifest-plugin": "^2.0.4"
-  },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ]
+  }
 }

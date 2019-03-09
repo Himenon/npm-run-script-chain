@@ -41,7 +41,7 @@ export const paths = {
   appBuild: resolveApp("build"),
   appPublic: resolveApp("public"),
   appHtml: resolveApp("public/index.html"),
-  appIndexJs: resolveApp("src/index.tsx"),
+  appIndexJs: resolveApp("src/client.tsx"),
   appPackageJson: resolveApp("package.json"),
   appSrc: resolveApp("src"),
   appTsConfig: resolveApp("tsconfig.json"),

@@ -1,6 +1,7 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import * as App from "./App";
+import "./index.css";
 
 const getInitialProps = (): App.Props => {
   return {

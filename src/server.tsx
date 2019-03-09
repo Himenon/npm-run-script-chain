@@ -6,14 +6,14 @@ import * as React from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import * as url from "url";
 import * as App from "./App";
-import * as Anchor from "./components/Anchor";
-import { getHtmlTemplate } from "./htmlTemplate";
+import { Anchor } from "./components";
 import { makeChain, Package } from "./parser";
 import { TreeData } from "./types";
 
 export class Server {
   private app: http.Server;
   private filePath: string;
+  private cacheTemplate: string | undefined;
   private START_QUERY_KEY = "start";
 
   constructor(private basePath: string, inputFile: string) {
@@ -39,7 +39,7 @@ export class Server {
       }));
       if (!(startKey in pkg.scripts)) {
         const menu = renderToStaticMarkup(Anchor.createAnchors(anchors));
-        res.write(getHtmlTemplate(menu));
+        res.write(this.generateHTML(menu));
         res.end();
         return;
       }
@@ -53,7 +53,7 @@ export class Server {
         anchors,
       };
       const html = renderToStaticMarkup(<App.Component {...props} />);
-      res.write(getHtmlTemplate(html));
+      res.write(this.generateHTML(html));
       res.end();
     });
   }
@@ -73,6 +73,14 @@ export class Server {
       console.log(err);
       throw err;
     }
+  }
+
+  private generateHTML(el: string): string {
+    const template = this.cacheTemplate
+      ? this.cacheTemplate
+      : fs.readFileSync(path.join(this.basePath, "build/index.html"), { encoding: "utf-8" });
+    this.cacheTemplate = template;
+    return template.replace("{{ SSR_DOM }}", el);
   }
 
   private loadDistDirectoryFile(res: http.ServerResponse, pathname: string): boolean {

@@ -1,7 +1,6 @@
 import * as React from "react";
 const PathTree = require("paths-js/tree");
-import * as Anchor from ".//components/Anchor";
-import * as Tree from ".//components/Tree";
+import { Anchor, Tree } from "./components";
 import { TreeData } from "./types";
 
 interface AppProps {
