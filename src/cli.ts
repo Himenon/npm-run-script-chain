@@ -2,7 +2,7 @@
 
 import * as meow from "meow";
 import opn = require("opn");
-import { Server } from "./server";
+import { createServer } from "./server";
 
 const cli = meow(
   `
@@ -43,8 +43,10 @@ const main = async (commandLineArguments: CliArguments) => {
     return;
   }
   try {
-    const server = new Server(baseDir, commandLineArguments.file);
-    const serverAddress = await server.run(commandLineArguments.port || 8001);
+    const server = createServer(baseDir, commandLineArguments.file);
+    const port = commandLineArguments.port || 8001;
+    const serverAddress = `http://localhost:${port}`;
+    await server.listen(port);
     console.log(`open: ${serverAddress}`);
     opn(serverAddress);
   } catch (err) {

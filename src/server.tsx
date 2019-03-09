@@ -1,98 +1,34 @@
-// import * as fs from "fs";
+import * as express from "express";
 import * as fs from "fs";
-import * as http from "http";
 import * as path from "path";
 import * as React from "react";
 import { renderToStaticMarkup } from "react-dom/server";
-import * as url from "url";
 import * as App from "./App";
-import { Anchor } from "./components";
-import { makeChain, Package } from "./parser";
-import { TreeData } from "./types";
+import * as Tools from "./generator";
 
-export class Server {
-  private app: http.Server;
-  private filePath: string;
-  private cacheTemplate: string | undefined;
-  private START_QUERY_KEY = "start";
+export const createServer = (baseDir: string, inputFile: string) => {
+  let cacheTemplate: string | undefined;
+  const packageJsonFile = path.join(baseDir, inputFile);
+  const app = express();
+  const pkg = Tools.getPackageJson(packageJsonFile);
 
-  constructor(private basePath: string, inputFile: string) {
-    this.filePath = path.join(basePath, inputFile);
-    this.app = http.createServer((req: http.IncomingMessage, res: http.ServerResponse) => {
-      // TODO expressならもう少し簡単にかけそう
-      let startKey: string = "Please set Query Params `?start=any`";
-      if (req.url) {
-        const { pathname, query } = url.parse(req.url, true);
-        if (query && query[this.START_QUERY_KEY]) {
-          const key = query[this.START_QUERY_KEY];
-          startKey = typeof key === "string" ? key : startKey;
-        }
-        if (pathname && pathname.match(/^\/dist\//) && this.loadDistDirectoryFile(res, pathname)) {
-          return;
-        }
-      }
-      const pkg = this.getPackageJson();
-      const hostname = req.headers.host;
-      const anchors: Anchor.Props[] = Object.keys(pkg.scripts).map(key => ({
-        text: key,
-        href: `http://${hostname}/?start=${key}`,
-      }));
-      if (!(startKey in pkg.scripts)) {
-        const menu = renderToStaticMarkup(Anchor.createAnchors(anchors));
-        res.write(this.generateHTML(menu));
-        res.end();
-        return;
-      }
-      const treeData: TreeData = {
-        name: startKey,
-        children: [],
-      };
-      makeChain(treeData, pkg);
-      const props: App.Props = {
-        treeData,
-        anchors,
-      };
-      const html = renderToStaticMarkup(<App.Component {...props} />);
-      res.write(this.generateHTML(html));
-      res.end();
-    });
-  }
-
-  public async run(port: number): Promise<string> {
-    try {
-      const server = await this.app.listen(port);
-      const addr = server.address();
-      if (typeof addr === "string") {
-        return `http://localhost:${addr}/`;
-      } else if (addr) {
-        return `http://localhost:${addr.port}/`;
-      } else {
-        return `http://localhost:8000/`;
-      }
-    } catch (err) {
-      console.log(err);
-      throw err;
-    }
-  }
-
-  private generateHTML(el: string): string {
-    const template = this.cacheTemplate
-      ? this.cacheTemplate
-      : fs.readFileSync(path.join(this.basePath, "build/index.html"), { encoding: "utf-8" });
-    this.cacheTemplate = template;
+  const generateHTML = (el: string): string => {
+    const template = cacheTemplate ? cacheTemplate : fs.readFileSync(path.join(baseDir, "build/index.html"), { encoding: "utf-8" });
+    cacheTemplate = template;
     return template.replace("{{ SSR_DOM }}", el);
-  }
+  };
 
-  private loadDistDirectoryFile(res: http.ServerResponse, pathname: string): boolean {
-    const distFilePath = path.join(this.basePath, pathname);
-    if (fs.existsSync(distFilePath) && fs.statSync(distFilePath).isFile()) {
-      fs.createReadStream(distFilePath).pipe(res);
-      return true;
-    }
-    return false;
-  }
+  app.use("/static", express.static("build/static"));
+  app.use("/stylesheets", express.static("build/stylesheets"));
 
-  private getPackageJson(): Package {
-    return require(this.filePath);
-  }
-}
+  app.get("*", (req: express.Request, res: express.Response) => {
+    const hostname = req.headers.host;
+    const anchors = Tools.generateAnchorsProps(Object.keys(pkg.scripts), { hostname });
+    const treeData = Tools.generateTreeData(req.query.start, pkg);
+    const html = renderToStaticMarkup(<App.Component {...{ anchors, treeData }} />);
+    res.send(generateHTML(html));
+    res.end();
+  });
+
+  return app;
+};
