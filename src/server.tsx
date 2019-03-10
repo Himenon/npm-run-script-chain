@@ -1,27 +1,25 @@
 import * as express from "express";
 import * as fs from "fs";
 import * as path from "path";
-import * as Tools from "./generator";
 
 export const createServer = (baseDir: string, inputFile: string) => {
   let cacheTemplate: string | undefined;
   const packageJsonFile = path.join(baseDir, inputFile);
   const app = express();
-  const pkg = Tools.getPackageJson(packageJsonFile);
+  const pkg = require(packageJsonFile);
 
-  const applyTemplate = (el: string): string => {
+  const applyProps = (): string => {
+    const props = { raw: pkg };
     const template = cacheTemplate ? cacheTemplate : fs.readFileSync(path.join(baseDir, "build/index.html"), { encoding: "utf-8" });
     cacheTemplate = template;
-    return template.replace("{{ SSR_DOM }}", el);
+    return template.replace("{{ SSR_DOM }}", "").replace("{{ SSR_INITIAL_STATE }}", JSON.stringify(props));
   };
 
   app.use("/static", express.static("build/static"));
   app.use("/stylesheets", express.static("build/stylesheets"));
 
   app.get("*", (req: express.Request, res: express.Response) => {
-    const props = { raw: pkg };
-    const html = Tools.generateSsrHtml(props);
-    res.send(applyTemplate(html));
+    res.send(applyProps());
     res.end();
   });
 
