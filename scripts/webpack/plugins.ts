@@ -7,6 +7,7 @@ import { paths } from "../../config/paths";
 const InterpolateHtmlPlugin = require("react-dev-utils/InterpolateHtmlPlugin");
 const InlineChunkHtmlPlugin = require("react-dev-utils/InlineChunkHtmlPlugin");
 const ModuleNotFoundPlugin = require("react-dev-utils/ModuleNotFoundPlugin");
+import { ServerSideRenderingPlugin } from "./SsrPlugin";
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 export const plugins = {
@@ -48,6 +49,7 @@ export const plugins = {
   ModuleNotFoundPlugin: ({ appPath }: { appPath: string }) => new ModuleNotFoundPlugin(appPath),
   InlineChunkHtmlPlugin: () => new InlineChunkHtmlPlugin(HtmlWebpackPlugin, [/runtime~.+[.]js/]),
   InterpolateHtmlPlugin: (env: { raw: any }) => new InterpolateHtmlPlugin(HtmlWebpackPlugin, env.raw),
+  ServerSideRenderingPlugin: () => new ServerSideRenderingPlugin(HtmlWebpackPlugin, "{{ SSR_DOM }}"),
   DefinePlugin: (env: { stringified: any }) => new webpack.DefinePlugin(env.stringified),
   ManifestPlugin: ({ publicPath }: { publicPath: string }) =>
     new ManifestPlugin({

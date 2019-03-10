@@ -1,10 +1,4 @@
-import { TreeData } from "./types";
-
-export interface Package {
-  scripts: {
-    [key: string]: string;
-  };
-}
+import { Package, TreeData } from "./types";
 
 export interface SplitScript {
   key: string;

@@ -74,7 +74,9 @@ class Tree extends React.Component<TreeProps, {}> {
 
   private nodes(params: TreeParams) {
     return params.tree.nodes.map((n: Types.TreeNode, idx: number) => {
-      const position = "translate(" + n.point[0] + "," + n.point[1] + ")";
+      const x = isNaN(n.point[0]) ? 0 : n.point[0];
+      const y = isNaN(n.point[0]) ? 0 : n.point[1];
+      const position = "translate(" + x + "," + y + ")";
 
       const toggle = () => {
         n.item.collapsed = !n.item.collapsed;

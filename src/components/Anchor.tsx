@@ -3,13 +3,14 @@ import { TreeNode } from "../types";
 
 interface AnchorProps {
   text: string;
-  href: string;
+  onClick: () => Promise<void> | void;
+  children?: React.ReactNode;
 }
 
-const createAnchors = (anchors: AnchorProps[]): React.ReactElement<any> => {
+const createAnchors: React.SFC<AnchorProps[]> = (anchors: AnchorProps[]): React.ReactElement<any> => {
   const items = anchors.map(anchor => (
     <li key={anchor.text}>
-      <a href={anchor.href}>{anchor.text}</a>
+      <button onClick={anchor.onClick}>{anchor.text}</button>
     </li>
   ));
   return <ul id="menu">{items}</ul>;

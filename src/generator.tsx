@@ -1,14 +1,14 @@
-import { Anchor } from "./components";
-import { makeChain, Package } from "./parser";
-import { TreeData } from "./types";
+import * as React from "react";
+import { renderToString } from "react-dom/server";
+import * as App from "./App";
+import { makeChain } from "./parser";
+import { Package, TreeData } from "./types";
+
+export const IS_BROWSER = typeof window !== "undefined" && "HTMLElement" in window;
 
 export const getPackageJson = (filePath: string): Package => require(filePath);
-export const generateAnchorsProps = (keys: string[], { hostname }: { hostname?: string }): Anchor.Props[] =>
-  keys.map(key => ({
-    text: key,
-    href: `http://${hostname}/?start=${key}`,
-  }));
-export const generateTreeData = (start: string | undefined, pkg: Package): TreeData | undefined => {
+
+export const generateTreeData = (start: string | undefined | null, pkg: Package): TreeData | undefined => {
   if (!start) {
     return undefined;
   }
@@ -18,4 +18,8 @@ export const generateTreeData = (start: string | undefined, pkg: Package): TreeD
   };
   makeChain(treeData, pkg);
   return treeData;
+};
+
+export const generateSsrHtml = (props: App.Props): string => {
+  return renderToString(<App.Component {...props} />);
 };

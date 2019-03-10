@@ -1,9 +1,6 @@
 import * as express from "express";
 import * as fs from "fs";
 import * as path from "path";
-import * as React from "react";
-import { renderToStaticMarkup } from "react-dom/server";
-import * as App from "./App";
 import * as Tools from "./generator";
 
 export const createServer = (baseDir: string, inputFile: string) => {
@@ -12,7 +9,7 @@ export const createServer = (baseDir: string, inputFile: string) => {
   const app = express();
   const pkg = Tools.getPackageJson(packageJsonFile);
 
-  const generateHTML = (el: string): string => {
+  const applyTemplate = (el: string): string => {
     const template = cacheTemplate ? cacheTemplate : fs.readFileSync(path.join(baseDir, "build/index.html"), { encoding: "utf-8" });
     cacheTemplate = template;
     return template.replace("{{ SSR_DOM }}", el);
@@ -22,11 +19,9 @@ export const createServer = (baseDir: string, inputFile: string) => {
   app.use("/stylesheets", express.static("build/stylesheets"));
 
   app.get("*", (req: express.Request, res: express.Response) => {
-    const hostname = req.headers.host;
-    const anchors = Tools.generateAnchorsProps(Object.keys(pkg.scripts), { hostname });
-    const treeData = Tools.generateTreeData(req.query.start, pkg);
-    const html = renderToStaticMarkup(<App.Component {...{ anchors, treeData }} />);
-    res.send(generateHTML(html));
+    const props = { raw: pkg };
+    const html = Tools.generateSsrHtml(props);
+    res.send(applyTemplate(html));
     res.end();
   });
 

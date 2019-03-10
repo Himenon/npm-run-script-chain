@@ -15,7 +15,7 @@ export const configFactory = (webpackEnv: "development" | "production"): webpack
   const isEnvProduction = webpackEnv === "production";
 
   const publicPath = isEnvProduction ? paths.servedPath : isEnvDevelopment && "/";
-  const publicUrl = isEnvProduction && publicPath ? publicPath.slice(0, -1) : isEnvDevelopment && "";
+  const publicUrl: string = isEnvProduction && publicPath ? publicPath.slice(0, -1) : "";
   const env = getClientEnvironment(publicUrl);
 
   return {
@@ -75,6 +75,7 @@ export const configFactory = (webpackEnv: "development" | "production"): webpack
       plugins.ForkTsCheckerWebpackPlugin(),
       plugins.HtmlWebpackPlugin({ isEnvProduction }),
       isEnvProduction && shouldInlineRuntimeChunk && plugins.InlineChunkHtmlPlugin,
+      isEnvDevelopment && plugins.ServerSideRenderingPlugin(),
       plugins.InterpolateHtmlPlugin(env),
       // plugins.ModuleNotFoundPlugin(paths),
       plugins.DefinePlugin(env),
