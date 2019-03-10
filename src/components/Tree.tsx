@@ -56,8 +56,8 @@ class Tree extends React.Component<TreeProps, {}> {
     const params: TreeParams = generateTreeParams(this.props.treeData, DEFAULT_TREE_PARAMS.size);
     return (
       <div id="tree">
-        <svg width="100%" height="100%">
-          <g transform="translate(80, 10)">
+        <svg width={`${params.size.width}px`} height={`${params.size.height}px`}>
+          <g transform="translate(80, 10) scale(0.75)">
             {this.curves(params)}
             {this.nodes(params)}
           </g>
@@ -75,9 +75,8 @@ class Tree extends React.Component<TreeProps, {}> {
   private nodes(params: TreeParams) {
     return params.tree.nodes.map((n: Types.TreeNode, idx: number) => {
       const x = isNaN(n.point[0]) ? 0 : n.point[0];
-      const y = isNaN(n.point[0]) ? 0 : n.point[1];
+      const y = isNaN(n.point[0]) ? DEFAULT_TREE_PARAMS.size.height / 2 : n.point[1];
       const position = "translate(" + x + "," + y + ")";
-
       const toggle = () => {
         n.item.collapsed = !n.item.collapsed;
         this.forceUpdate();
