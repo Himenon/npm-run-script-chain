@@ -12,7 +12,9 @@ interface AnchorProps {
 
 const createAnchors: React.SFC<AnchorProps[]> = (anchors: AnchorProps[]): React.ReactElement<any> => {
   const items = anchors.map(anchor => {
-    const className = [classNames.listGroupItem, classNames.listGroupItemAction, anchor.isActive ? classNames.active : ""].join(" ");
+    const className = [classNames.listGroupItem, classNames.listGroupItemAction, anchor.isActive ? classNames.active : false]
+      .filter(Boolean)
+      .join(" ");
     return (
       <li className={className} key={anchor.text} onClick={anchor.onClick}>
         {anchor.text}

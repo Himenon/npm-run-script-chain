@@ -18,8 +18,12 @@ glob.sync("./src/**/*.scss").map(filepath => {
 });
 
 const config: webpack.Configuration = {
+  mode: "production",
+  target: "node",
   entry: entries,
   output: {
+    // library名を指定しないことでdefault exportにする
+    libraryTarget: "commonjs",
     path: paths.appLib,
   },
   plugins: [plugins.MiniCssExtractPlugin()],
@@ -28,9 +32,4 @@ const config: webpack.Configuration = {
   },
 };
 
-const compiler = webpack(config);
-compiler.run((err, stats) => {
-  if (err) {
-    console.error(err);
-  }
-});
+export default config;
