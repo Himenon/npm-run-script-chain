@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import * as Types from "../types";
-import * as Anchor from "./Anchor";
+import * as Button from "./Button";
 
 const PathTree = require("paths-js/tree");
 
@@ -82,7 +82,7 @@ class Tree extends React.Component<TreeProps, {}> {
         this.forceUpdate();
       };
       const text: any =
-        children(n.item).length > 0 ? Anchor.createTextNode(n, { x: -10, y: 0 }) : Anchor.createTextNode(n, { x: 10, y: 0 });
+        children(n.item).length > 0 ? Button.createTextNode(n, { x: -10, y: 0 }) : Button.createTextNode(n, { x: 10, y: 0 });
       return (
         <g transform={position} key={`node-${idx}`}>
           <circle fill="white" stroke="black" r="5" cx="0" cy="0" onClick={toggle} />

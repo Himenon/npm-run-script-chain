@@ -1,5 +1,5 @@
-import * as Anchor from "./Anchor";
-export { Anchor };
+import * as Button from "./Button";
+export { Button };
 
 import * as Dendrogram from "./Dendrogram";
 export { Dendrogram };

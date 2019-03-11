@@ -1,6 +1,7 @@
 import * as React from "react";
-const classNames = require("../index.scss");
 import { TreeNode } from "../types";
+
+const classNames = require("../style.scss");
 
 interface AnchorProps {
   text: string;

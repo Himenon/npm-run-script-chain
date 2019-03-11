@@ -1,10 +1,10 @@
 import * as React from "react";
 
-import { Anchor, Tree } from "./components";
+import { Button, Tree } from "./components";
 import * as Tools from "./generator";
 import { Package, TreeData } from "./types";
 
-const classNames = require("./index.scss");
+const classNames = require("./style.scss");
 
 interface AppProps {
   raw: Package;
@@ -43,7 +43,7 @@ class App extends React.Component<AppProps, AppState> {
     return Tools.generateTreeData(this.state.key, this.props.raw);
   }
   private generateAnchors(pkg: Package) {
-    const anchors: Anchor.Props[] = Object.keys(pkg.scripts).map(key => {
+    const anchors: Button.Props[] = Object.keys(pkg.scripts).map(key => {
       const props = {
         text: key,
         isActive: key === this.state.key,
@@ -55,7 +55,7 @@ class App extends React.Component<AppProps, AppState> {
       };
       return props;
     });
-    return Anchor.createAnchors(anchors);
+    return Button.createAnchors(anchors);
   }
 }
 
