@@ -1,10 +1,11 @@
 import * as React from "react";
 
+import classNames from "classnames";
 import { Button, Tree } from "./components";
 import * as Tools from "./generator";
 import { Package, TreeData } from "./types";
 
-const classNames = require("./style.scss");
+const styles = require("./style.scss");
 
 interface AppProps {
   raw: Package;
@@ -24,26 +25,45 @@ class App extends React.Component<AppProps, AppState> {
     };
   }
   public render() {
-    const anchors = this.generateAnchors(this.props.raw);
+    const menu = this.generateMenu(this.props.raw);
     const treeData = this.getTreeData();
     return (
-      <div className={classNames.container}>
-        <div className={classNames.row}>
-          <div className={classNames.col2}>{anchors}</div>
-          {treeData && (
-            <div className={[classNames.col8, classNames.overflowAuto].join(" ")}>
-              <Tree.Component {...{ treeData }} />
-            </div>
+      <>
+        <nav
+          className={classNames(
+            styles.navbar,
+            styles["navbar-dark"],
+            styles["fixed-top"],
+            styles["bg-dark"],
+            styles["flex-md-nowrap"],
+            styles["p-0"],
+            styles.shadow,
           )}
+        >
+          <span className={classNames(styles["navbar-brand"], styles["col-sm-3"], styles["col-md-2"], styles["mr-0"])}>
+            npm-run-script-chain
+          </span>
+        </nav>
+        <div className={styles.containerFluid}>
+          <div className={styles.row}>
+            <div className={classNames(styles["col-md-2"], styles["d-none"], styles["d-md-block"], styles["bg-light"], styles.sidebar)}>
+              <div className={styles["sidebar-sticky"]}>{menu}</div>
+            </div>
+            {treeData && (
+              <div className={classNames(styles.col8, styles.overflowAuto)}>
+                <Tree.Component {...{ treeData }} />
+              </div>
+            )}
+          </div>
         </div>
-      </div>
+      </>
     );
   }
   private getTreeData(): TreeData | undefined {
     return Tools.generateTreeData(this.state.key, this.props.raw);
   }
-  private generateAnchors(pkg: Package) {
-    const anchors: Button.Props[] = Object.keys(pkg.scripts).map(key => {
+  private generateMenu(pkg: Package) {
+    const buttons: Button.Props[] = Object.keys(pkg.scripts).map(key => {
       const props = {
         text: key,
         isActive: key === this.state.key,
@@ -55,7 +75,7 @@ class App extends React.Component<AppProps, AppState> {
       };
       return props;
     });
-    return Button.createAnchors(anchors);
+    return Button.createElements(buttons);
   }
 }
 

@@ -11,10 +11,13 @@ import { rules as defaultRules } from "./webpack/rules";
 process.on("unhandledRejection", err => {
   throw err;
 });
-const entries: { [key: string]: string } = {};
+const entries: { [key: string]: string } = { "style.scss": "./src/style.scss" };
 
 glob.sync("./src/**/*.scss").map(filepath => {
-  entries[path.basename(filepath)] = filepath;
+  const filename = path.basename(filepath);
+  if (filename.charAt(0) !== "_") {
+    entries[filename] = filepath;
+  }
 });
 
 const config: webpack.Configuration = {

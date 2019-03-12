@@ -1,7 +1,8 @@
+import classNames from "classnames";
 import * as React from "react";
 import { TreeNode } from "../types";
 
-const classNames = require("../style.scss");
+const styles = require("../style.scss");
 
 interface AnchorProps {
   text: string;
@@ -10,18 +11,17 @@ interface AnchorProps {
   isActive?: boolean;
 }
 
-const createAnchors: React.SFC<AnchorProps[]> = (anchors: AnchorProps[]): React.ReactElement<any> => {
-  const items = anchors.map(anchor => {
-    const className = [classNames.listGroupItem, classNames.listGroupItemAction, anchor.isActive ? classNames.active : false]
-      .filter(Boolean)
-      .join(" ");
+const createElements: React.SFC<AnchorProps[]> = (anchors: AnchorProps[]): React.ReactElement<any> => {
+  const items = anchors.map(item => {
     return (
-      <li className={className} key={anchor.text} onClick={anchor.onClick}>
-        {anchor.text}
+      <li className={styles.navItem} key={item.text}>
+        <span onClick={item.onClick} className={classNames(styles.navLink, item.isActive ? styles.active : "")}>
+          {item.text}
+        </span>
       </li>
     );
   });
-  return <ul className={classNames.listGroup}>{items}</ul>;
+  return <ul className={classNames(styles.nav, styles.flexColumn)}>{items}</ul>;
 };
 
 const createTextNode = (props: TreeNode, pos: { x: number; y: number }): React.ReactElement<any> => {
@@ -32,4 +32,4 @@ const createTextNode = (props: TreeNode, pos: { x: number; y: number }): React.R
   );
 };
 
-export { AnchorProps as Props, createAnchors, createTextNode };
+export { AnchorProps as Props, createElements, createTextNode };
