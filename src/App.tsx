@@ -1,6 +1,5 @@
 import * as React from "react";
 
-import classNames from "classnames";
 import { Button, Tree } from "./components";
 import * as Tools from "./generator";
 import { Package, TreeData } from "./types";
@@ -16,6 +15,13 @@ interface AppState {
   key: string;
 }
 
+const getClassNames = (className: string): string => {
+  return className
+    .split(" ")
+    .map(name => styles[name])
+    .join(" ");
+};
+
 class App extends React.Component<AppProps, AppState> {
   constructor(props: AppProps) {
     super(props);
@@ -29,31 +35,24 @@ class App extends React.Component<AppProps, AppState> {
     const treeData = this.getTreeData();
     return (
       <>
-        <nav
-          className={classNames(
-            styles.navbar,
-            styles["navbar-dark"],
-            styles["fixed-top"],
-            styles["bg-dark"],
-            styles["flex-md-nowrap"],
-            styles["p-0"],
-            styles.shadow,
-          )}
-        >
-          <span className={classNames(styles["navbar-brand"], styles["col-sm-3"], styles["col-md-2"], styles["mr-0"])}>
-            npm-run-script-chain
-          </span>
+        <nav className={getClassNames("navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow")}>
+          <span className={getClassNames("navbar-brand col-sm-3 col-md-2 mr-0")}>npm-run-script-chain</span>
         </nav>
         <div className={styles.containerFluid}>
           <div className={styles.row}>
-            <div className={classNames(styles["col-md-2"], styles["d-none"], styles["d-md-block"], styles["bg-light"], styles.sidebar)}>
+            <nav className={getClassNames("col-md-2 d-none d-md-block bg-light sidebar")}>
               <div className={styles["sidebar-sticky"]}>{menu}</div>
-            </div>
-            {treeData && (
-              <div className={classNames(styles.col8, styles.overflowAuto)}>
-                <Tree.Component {...{ treeData }} />
+            </nav>
+            <main className={getClassNames("col-md-9 ml-sm-auto col-lg-10 px-4")}>
+              <div
+                className={getClassNames(
+                  "d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom",
+                )}
+              >
+                <h1 className={styles.h2}>{"タイトル"}</h1>
               </div>
-            )}
+              {treeData && <Tree.Component {...{ treeData }} />}
+            </main>
           </div>
         </div>
       </>
