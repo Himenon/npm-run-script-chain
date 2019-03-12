@@ -1,4 +1,7 @@
 {
   "extends": "./tsconfig",
-  "exclude": ["node_modules", "./src/**/__tests__/*", "scripts", "webpack.config.ts"]
+  "compilerOptions": {
+    "rootDir": "./src"
+  },
+  "exclude": ["node_modules", "./src/**/__tests__/*", "scripts", "config"]
 }

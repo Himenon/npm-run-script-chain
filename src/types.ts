@@ -1,3 +1,9 @@
+export interface Package {
+  scripts: {
+    [key: string]: string;
+  };
+}
+
 export interface TreeData {
   name: string;
   children: TreeData[];
@@ -17,7 +23,7 @@ export interface TreeItem {
 }
 
 export interface TreeNode {
-  point: Array<[number, number]>;
+  point: [number, number];
   item: TreeItem;
 }
 

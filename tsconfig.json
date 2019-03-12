@@ -11,13 +11,12 @@
     "removeComments": true,
     "sourceMap": true,
     "allowJs": false,
-    "jsx": "react",
     "moduleResolution": "node",
-    "rootDir": "./src",
+    "rootDir": ".",
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": true,
     "noImplicitThis": true,
-    "noImplicitAny": true,
+    "noImplicitAny": false,
     "strict": true,
     "strictNullChecks": true,
     "suppressImplicitAnyIndexErrors": true,
@@ -25,18 +24,18 @@
     "baseUrl": "./",
     "noLib": false,
     "declaration": true,
-    "typeRoots": [
-      "./node_modules/@types"
-    ],
-    "paths": {}
+    "jsx": "react"
   },
   "include": [
     "src/**/*.ts",
     "src/**/*.tsx",
-    "./webpack.config.ts"
+    "scripts/**/*.ts",
+    "scripts/**/*.tsx",
+    "config/**/*.ts",
+    "config/**/*.tsx"
   ],
   "exclude": [
-    "node_modules"
+    "./node_modules"
   ],
   "ordered-imports": [
     true,

@@ -1,6 +1,6 @@
 jest.unmock("../parser");
-import { makeChain, Package } from "../parser";
-import { TreeData } from "../types";
+import { makeChain } from "../parser";
+import { Package, TreeData } from "../types";
 
 describe("package.json parser", () => {
   const packageScript: Package = {

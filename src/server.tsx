@@ -1,85 +1,27 @@
-// import * as fs from "fs";
+import * as express from "express";
 import * as fs from "fs";
-import * as http from "http";
 import * as path from "path";
-import * as React from "react";
-import { renderToStaticMarkup } from "react-dom/server";
-import * as url from "url";
-import { AnchorProps, makeAnchorList } from "./components";
-import { getHtmlTemplate } from "./htmlTemplate";
-import { App, AppProps, makeProps } from "./index";
-import { makeChain, Package } from "./parser";
-import { TreeData } from "./types";
 
-export class Server {
-  private app: http.Server;
-  private filePath: string;
-  private START_QUERY_KEY = "start";
+export const createServer = (baseDir: string, inputFile: string) => {
+  let cacheTemplate: string | undefined;
+  const packageJsonFile = path.join(baseDir, inputFile);
+  const app = express();
+  const pkg = require(packageJsonFile);
 
-  constructor(private basePath: string, inputFile: string) {
-    this.filePath = path.join(basePath, inputFile);
-    this.app = http.createServer((req: http.IncomingMessage, res: http.ServerResponse) => {
-      // TODO expressならもう少し簡単にかけそう
-      let startKey: string = "Please set Query Params `?start=any`";
-      if (req.url) {
-        const { pathname, query } = url.parse(req.url, true);
-        if (query && query[this.START_QUERY_KEY]) {
-          const key = query[this.START_QUERY_KEY];
-          startKey = typeof key === "string" ? key : startKey;
-        }
-        if (pathname && pathname.match(/^\/dist\//) && this.loadDistDirectoryFile(res, pathname)) {
-          return;
-        }
-      }
-      const pkg = this.getPackageJson();
-      const hostname = req.headers.host;
-      const anchors: AnchorProps[] = Object.keys(pkg.scripts).map(key => ({
-        text: key,
-        href: `http://${hostname}/?start=${key}`,
-      }));
-      if (!(startKey in pkg.scripts)) {
-        const menu = renderToStaticMarkup(makeAnchorList(anchors));
-        res.write(getHtmlTemplate(menu));
-        res.end();
-        return;
-      }
-      const chainData: TreeData = {
-        name: startKey,
-        children: [],
-      };
-      makeChain(chainData, pkg);
-      const props: AppProps = makeProps(chainData, { width: 350, height: 300 }, anchors);
-      const html = renderToStaticMarkup(<App {...props} />);
-      res.write(getHtmlTemplate(html));
-      res.end();
-    });
-  }
+  const applyProps = (): string => {
+    const props = { raw: pkg };
+    const template = cacheTemplate ? cacheTemplate : fs.readFileSync(path.join(baseDir, "build/index.html"), { encoding: "utf-8" });
+    cacheTemplate = template;
+    return template.replace("{{ SSR_DOM }}", "").replace("{{ SSR_INITIAL_STATE }}", JSON.stringify(props));
+  };
 
-  public async run(port: number): Promise<string> {
-    try {
-      const server = await this.app.listen(port);
-      const addr = server.address();
-      if (typeof addr === "string") {
-        return `http://localhost:${addr}/`;
-      } else {
-        return `http://localhost:${addr.port}/`;
-      }
-    } catch (err) {
-      console.log(err);
-      throw err;
-    }
-  }
+  app.use("/static", express.static("build/static"));
+  app.use("/stylesheets", express.static("build/stylesheets"));
 
-  private loadDistDirectoryFile(res: http.ServerResponse, pathname: string): boolean {
-    const distFilePath = path.join(this.basePath, pathname);
-    if (fs.existsSync(distFilePath) && fs.statSync(distFilePath).isFile()) {
-      fs.createReadStream(distFilePath).pipe(res);
-      return true;
-    }
-    return false;
-  }
+  app.get("*", (req: express.Request, res: express.Response) => {
+    res.send(applyProps());
+    res.end();
+  });
 
-  private getPackageJson(): Package {
-    return require(this.filePath);
-  }
-}
+  return app;
+};
