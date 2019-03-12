@@ -23,6 +23,7 @@ const getClassNames = (className: string): string => {
 };
 
 class App extends React.Component<AppProps, AppState> {
+  private npmUrl: string = "https://www.npmjs.com/package/npm-run-script-chain";
   constructor(props: AppProps) {
     super(props);
     this.state = {
@@ -33,10 +34,13 @@ class App extends React.Component<AppProps, AppState> {
   public render() {
     const menu = this.generateMenu(this.props.raw);
     const treeData = this.getTreeData();
+    const onClick = this.updateKey.bind(this);
     return (
       <>
         <nav className={getClassNames("navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow")}>
-          <span className={getClassNames("navbar-brand col-sm-3 col-md-2 mr-0")}>npm-run-script-chain</span>
+          <a className={getClassNames("navbar-brand col-sm-3 col-md-2 mr-0")} href={this.npmUrl} target="_blank" rel="noopener">
+            npm-run-script-chain
+          </a>
         </nav>
         <div className={styles.containerFluid}>
           <div className={styles.row}>
@@ -49,14 +53,19 @@ class App extends React.Component<AppProps, AppState> {
                   "d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom",
                 )}
               >
-                <h1 className={styles.h2}>{"タイトル"}</h1>
+                <h1 className={styles.h2}>{this.state.key}</h1>
               </div>
-              {treeData && <Tree.Component {...{ treeData }} />}
+              {treeData && <Tree.Component {...{ treeData, onClick }} />}
             </main>
           </div>
         </div>
       </>
     );
+  }
+  private updateKey(key: string): void {
+    this.setState({
+      key,
+    });
   }
   private getTreeData(): TreeData | undefined {
     return Tools.generateTreeData(this.state.key, this.props.raw);

@@ -15,19 +15,21 @@ const createElements: React.SFC<AnchorProps[]> = (anchors: AnchorProps[]): React
   const items = anchors.map(item => {
     return (
       <li className={styles.navItem} key={item.text}>
-        <span onClick={item.onClick} className={classNames(styles.navLink, item.isActive ? styles.active : "")}>
+        <a href="#" onClick={item.onClick} className={classNames(styles.navLink, item.isActive ? styles.active : "")}>
           {item.text}
-        </span>
+        </a>
       </li>
     );
   });
   return <ul className={classNames(styles.nav, styles.flexColumn)}>{items}</ul>;
 };
 
-const createTextNode = (props: TreeNode, pos: { x: number; y: number }): React.ReactElement<any> => {
+const createTextNode = (props: TreeNode, pos: { x: number; y: number }, onClick: (key: string) => void): React.ReactElement<any> => {
   return (
     <text transform={`translate(${pos.x + 15},${pos.y - 10})`} textAnchor="end">
-      <a href={`?start=${props.item.name}`}>{props.item.name}</a>
+      <a href="#" rel="noopener" onClick={() => onClick(props.item.name)}>
+        {props.item.name}
+      </a>
     </text>
   );
 };

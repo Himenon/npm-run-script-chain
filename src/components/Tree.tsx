@@ -7,6 +7,7 @@ const PathTree = require("paths-js/tree");
 
 interface TreeProps {
   treeData: Types.TreeData;
+  onClick: (key: string) => void;
 }
 
 interface TreeParams {
@@ -57,9 +58,9 @@ class Tree extends React.Component<TreeProps, {}> {
     return (
       <div id="tree">
         <svg width={`${params.size.width}px`} height={`${params.size.height}px`}>
-          <g transform="translate(80, 10) scale(0.75)">
+          <g transform="translate(100, 40) scale(0.75)">
             {this.curves(params)}
-            {this.nodes(params)}
+            {this.nodes(params, this.props.onClick)}
           </g>
         </svg>
       </div>
@@ -72,7 +73,7 @@ class Tree extends React.Component<TreeProps, {}> {
     });
   }
 
-  private nodes(params: TreeParams) {
+  private nodes(params: TreeParams, onClick: (key: string) => void) {
     return params.tree.nodes.map((n: Types.TreeNode, idx: number) => {
       const x = isNaN(n.point[0]) ? 0 : n.point[0];
       const y = isNaN(n.point[0]) ? DEFAULT_TREE_PARAMS.size.height / 2 : n.point[1];
@@ -81,8 +82,7 @@ class Tree extends React.Component<TreeProps, {}> {
         n.item.collapsed = !n.item.collapsed;
         this.forceUpdate();
       };
-      const text: any =
-        children(n.item).length > 0 ? Button.createTextNode(n, { x: -10, y: 0 }) : Button.createTextNode(n, { x: 10, y: 0 });
+      const text: any = Button.createTextNode(n, { x: children(n.item).length > 0 ? -10 : 10, y: 0 }, onClick);
       return (
         <g transform={position} key={`node-${idx}`}>
           <circle fill="white" stroke="black" r="5" cx="0" cy="0" onClick={toggle} />
