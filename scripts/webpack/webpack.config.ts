@@ -5,7 +5,7 @@ import { moduleFileExtensions, paths } from "../../config/paths";
 import * as commonConfig from "./common";
 import { minimizerPluginMap } from "./optimization";
 import { plugins } from "./plugins";
-import { rules as defaultRules } from "./rules";
+import { generateRules } from "./rules";
 
 const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== "false";
 const shouldInlineRuntimeChunk = process.env.INLINE_RUNTIME_CHUNK !== "false";
@@ -13,6 +13,7 @@ const shouldInlineRuntimeChunk = process.env.INLINE_RUNTIME_CHUNK !== "false";
 export const configFactory = (webpackEnv: "development" | "production"): webpack.Configuration => {
   const isEnvDevelopment = webpackEnv === "development";
   const isEnvProduction = webpackEnv === "production";
+  const defaultRules = generateRules({ isEnvDevelopment, isEnvProduction });
 
   const publicPath = isEnvProduction ? paths.servedPath : isEnvDevelopment && "/";
   const publicUrl: string = isEnvProduction && publicPath ? publicPath.slice(0, -1) : "";

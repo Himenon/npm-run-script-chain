@@ -6,7 +6,9 @@ import * as path from "path";
 import * as webpack from "webpack";
 import { paths } from "../config/paths";
 import { plugins } from "./webpack/plugins";
-import { rules as defaultRules } from "./webpack/rules";
+import { generateRules } from "./webpack/rules";
+
+const defaultRules = generateRules({ isEnvDevelopment: true, isEnvProduction: false });
 
 process.on("unhandledRejection", err => {
   throw err;
@@ -31,7 +33,7 @@ const config: webpack.Configuration = {
   },
   plugins: [plugins.MiniCssExtractPlugin()],
   module: {
-    rules: [defaultRules.styleLoader],
+    rules: [defaultRules.sassLoader1, defaultRules.sassLoader2],
   },
 };
 

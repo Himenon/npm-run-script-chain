@@ -19,6 +19,7 @@
   },
   "files": [
     "lib",
+    "build",
     "package.json"
   ],
   "main": "lib/index.js",
