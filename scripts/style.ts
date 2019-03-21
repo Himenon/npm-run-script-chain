@@ -6,7 +6,7 @@ import * as path from "path";
 import * as webpack from "webpack";
 import { paths } from "../config/paths";
 import { plugins } from "./webpack/plugins";
-import { rules as defaultRules } from "./webpack/rules";
+import { rules } from "./webpack/rules";
 
 process.on("unhandledRejection", err => {
   throw err;
@@ -31,7 +31,7 @@ const config: webpack.Configuration = {
   },
   plugins: [plugins.MiniCssExtractPlugin()],
   module: {
-    rules: [defaultRules.styleLoader],
+    rules: [rules.assetsLoader({ isEnvDevelopment: false, isEnvProduction: true, shouldUseRelativeAssetPaths: false })],
   },
 };
 

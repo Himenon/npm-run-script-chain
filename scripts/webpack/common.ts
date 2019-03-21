@@ -17,10 +17,9 @@ export const alias: { [key: string]: string } = {};
 
 export const nodepPolyfill: webpack.Node | false = {
   dgram: "empty",
+  dns: "mock",
   fs: "empty",
   net: "empty",
   tls: "empty",
   child_process: "empty",
-  __dirname: false,
-  __filename: false,
 };
