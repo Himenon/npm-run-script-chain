@@ -3,6 +3,7 @@
 import * as meow from "meow";
 import opn = require("opn");
 import { createServer } from "./server";
+import * as path from "path";
 
 const cli = meow(
   `
@@ -40,10 +41,12 @@ const cliArgs = cli.flags as CliArguments;
 const main = async (commandLineArguments: CliArguments) => {
   if (!commandLineArguments.file) {
     console.log("$ npm-run-script-chain -f [file path]");
+    console.log("$ nrsc -f [file path]");
     return;
   }
   try {
-    const server = createServer(baseDir, commandLineArguments.file);
+    const appDir = path.resolve(__dirname, "../");
+    const server = createServer(appDir, baseDir, commandLineArguments.file);
     const port = commandLineArguments.port || 8001;
     const serverAddress = `http://localhost:${port}`;
     await server.listen(port);
