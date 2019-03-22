@@ -1,8 +1,11 @@
 {
   "name": "npm-run-script-chain",
-  "version": "0.0.1",
+  "version": "0.3.0",
   "description": "run-script chain",
-  "keywords": [],
+  "keywords": [
+    "chain",
+    "package.json"
+  ],
   "homepage": "https://github.com/Himenon/npm-run-script-chain#readme",
   "bugs": {
     "url": "https://github.com/Himenon/npm-run-script-chain/issues"
@@ -16,6 +19,7 @@
   },
   "files": [
     "lib",
+    "build",
     "package.json"
   ],
   "main": "lib/index.js",
@@ -28,7 +32,7 @@
     "lib": "lib"
   },
   "scripts": {
-    "build": "yarn run clean && yarn run build:scripts && node scripts/build.js",
+    "build": "yarn run clean && yarn run build:scripts && node scripts/build.js && yarn run build:lib",
     "build:lib": "rimraf lib && run-p build:tsc build:style",
     "build:lib:watch": "run-p build:tsc:watch build:style:watch build:scripts:watch",
     "build:scripts": "tsc -p tsconfig.scripts.json",

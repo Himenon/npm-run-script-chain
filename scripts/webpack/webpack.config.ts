@@ -76,8 +76,8 @@ export const configFactory = (webpackEnv: "development" | "production"): webpack
       ],
     },
     plugins: [
-      isEnvDevelopment && plugins.ServerSideRenderingPlugin(),
       plugins.HtmlWebpackPlugin({ isEnvProduction }),
+      isEnvDevelopment && plugins.ServerSideRenderingPlugin(),
       isEnvProduction && shouldInlineRuntimeChunk && plugins.InlineChunkHtmlPlugin,
       plugins.InterpolateHtmlPlugin(env),
       plugins.ModuleNotFoundPlugin(paths),
