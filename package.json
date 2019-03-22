@@ -20,19 +20,27 @@
   ],
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
+  "bin": {
+    "npm-run-script-chain": "./lib/cli.js",
+    "nrsc": "./lib/cli.js"
+  },
   "directories": {
     "lib": "lib"
   },
   "scripts": {
     "build": "yarn run clean && yarn run build:scripts && node scripts/build.js",
+    "build:lib": "tsc -p tsconfig.build.json",
+    "build:lib:watch": "tsc -p tsconfig.build.json -w",
     "build:scripts": "tsc -p tsconfig.scripts.json",
     "build:style": "webpack --config ./scripts/style.js",
+    "build:style:watch": "webpack --config ./scripts/style.js --watch",
     "ci:notify:release": "ts-node ./scripts/notify.ts",
     "clean": "rimraf ./lib ./build",
     "cli": "node ./lib/cli.js",
     "commitmsg": "commitlint -e $GIT_PARAMS",
     "cruiser": "dependency-cruiser --validate .dependency-cruiser.json src",
-    "develop": "yarn run build:scripts && yarn run server:dev",
+    "develop": "run-p build:*:watch",
+    "develop:server": "yarn run build:scripts && yarn run server:dev",
     "format": "prettier --config .prettierrc --write src/*.{ts,tsx}",
     "lint": "eslint -c ./.eslintrc.json 'src/**/*.{ts,tsx}'",
     "lint:fix": "yarn run lint -- --fix",
@@ -151,7 +159,7 @@
     "tslint-config-prettier": "^1.18.0",
     "tslint-config-standard": "^8.0.1",
     "tslint-plugin-prettier": "^2.0.1",
-    "typescript": "^3.3.4000",
+    "typescript": "3.3.4000",
     "url-loader": "^1.1.2",
     "webpack": "^4.29.6",
     "webpack-cli": "^3.3.0",

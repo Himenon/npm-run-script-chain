@@ -72,9 +72,11 @@ export const configFactory = (webpackEnv: "development" | "production"): webpack
         { parser: { requireEnsure: false } },
         defaultRules.BabelLoader(),
         defaultRules.assetsLoader({ isEnvDevelopment, isEnvProduction, shouldUseRelativeAssetPaths }),
+        defaultRules.tsLoader(),
       ],
     },
     plugins: [
+      isEnvDevelopment && plugins.ServerSideRenderingPlugin(),
       plugins.HtmlWebpackPlugin({ isEnvProduction }),
       isEnvProduction && shouldInlineRuntimeChunk && plugins.InlineChunkHtmlPlugin,
       plugins.InterpolateHtmlPlugin(env),
