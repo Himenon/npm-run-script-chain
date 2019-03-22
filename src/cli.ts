@@ -2,8 +2,8 @@
 
 import * as meow from "meow";
 import opn = require("opn");
-import { createServer } from "./server";
 import * as path from "path";
+import { createServer } from "./server";
 
 const cli = meow(
   `
