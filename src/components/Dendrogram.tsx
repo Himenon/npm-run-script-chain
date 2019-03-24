@@ -1,11 +1,11 @@
 import * as d3 from "d3";
 import * as React from "react";
-import { TreeData } from "../types";
-import * as Link from "./TreeLink";
-import * as Node from "./TreeNode";
+import * as Types from "../types";
+import * as Link from "./TreeLink/Container";
+import * as Node from "./TreeNode/Container";
 
 export interface DendrogramProps {
-  data: TreeData;
+  data: Types.TreeData;
   children?: React.ReactNode;
 }
 
@@ -15,39 +15,27 @@ export interface DendrogramProps {
  * https://swizec.com/blog/server-side-rendering-d3-chart-react-16/swizec/7824
  */
 export class Dendrogram extends React.Component<DendrogramProps, {}> {
+  private scale: Types.Adjustment = {
+    x: 200,
+    y: 400,
+    offsetX: 0,
+    offsetY: 100,
+  };
   constructor(props: DendrogramProps) {
     super(props);
   }
   public render() {
     const data = d3.hierarchy(this.props.data);
-    const root = d3.tree<TreeData>()(data);
+    const root = d3.tree<Types.TreeData>()(data);
     const nodes = root.descendants();
     const links = root.links();
     return (
-      <svg height={600} width={980}>
+      <svg height={"100%"} width={"100%"}>
         {this.props.children}
-        {links.map((props, idx) => (
-          <Link.Component {...this.generateLinkProps(props, { x: nodes[0].x, y: nodes[0].y })} key={`link-${idx}`} />
-        ))}
-        {nodes.map((props, idx) => (
-          <Node.Component {...this.generateNodeProps(props)} key={`node-${idx}`} />
-        ))}
+        <Link.Container links={links} node={nodes[0]} scale={this.scale} />
+        <Node.Container nodes={nodes} scale={this.scale} />
       </svg>
     );
-  }
-  private generateLinkProps(params: d3.HierarchyPointLink<TreeData>, add: { x: number; y: number }): Link.Props {
-    return {
-      ...params,
-      ...add,
-      x1: params.source.x,
-      x2: params.target.x,
-      y1: params.source.y,
-      y2: params.target.y,
-    };
-  }
-  private generateNodeProps(params: d3.HierarchyPointNode<TreeData>): Node.Props {
-    // @ts-ignore
-    return { ...params, x: 100, y: 100, radius: 1, offset: 1 };
   }
 }
 

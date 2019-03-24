@@ -1,7 +1,7 @@
+import { TreeData } from "@this/types";
 import * as d3 from "d3";
 import * as React from "react";
-import { TreeData } from "../types";
-const styles = require("../style.scss");
+const styles = require("../../style.scss");
 
 export interface NodeProps extends d3.HierarchyPointNode<TreeData> {
   x: number;
@@ -12,8 +12,10 @@ export interface NodeProps extends d3.HierarchyPointNode<TreeData> {
 
 export default class Node extends React.PureComponent<NodeProps, {}> {
   public render() {
+    const x = this.props.x;
+    const y = this.props.y;
     return (
-      <g className={styles.node} transform={this.getTransform()}>
+      <g className={styles.node} transform={this.getTransform(x, y)}>
         <circle className={styles.circle} r={this.props.radius} />
         <text className={styles.text} dx={this.props.radius + 0.5} dy={this.props.offset}>
           {this.props.data.name}
@@ -21,8 +23,8 @@ export default class Node extends React.PureComponent<NodeProps, {}> {
       </g>
     );
   }
-  private getTransform() {
-    return `translate(${this.props.y}, ${this.props.x})`;
+  private getTransform(x: number, y: number) {
+    return `translate(${y}, ${x})`;
   }
 }
 

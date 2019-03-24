@@ -28,14 +28,12 @@ class App extends React.Component<AppProps, AppState> {
     super(props);
     this.state = {
       raw: props.raw,
-      key: "start",
+      key: "build",
     };
   }
   public render() {
     const menu = this.generateMenu(this.props.raw);
     const treeData = this.getTreeData();
-    // @ts-ignore
-    const onClick = this.updateKey.bind(this);
     return (
       <>
         <nav className={getClassNames("navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow")}>
@@ -64,11 +62,11 @@ class App extends React.Component<AppProps, AppState> {
       </>
     );
   }
-  private updateKey(key: string): void {
-    this.setState({
-      key,
-    });
-  }
+  // private updateKey(key: string): void {
+  //   this.setState({
+  //     key,
+  //   });
+  // }
   private getTreeData(): TreeData | undefined {
     return Tools.generateTreeData(this.state.key, this.props.raw);
   }

@@ -1,9 +1,8 @@
-import * as d3 from "d3";
+import * as Types from "@this/types";
 import * as React from "react";
-import { TreeData } from "../types";
-const styles = require("../style.scss");
+const styles = require("../../style.scss");
 
-interface LinkProps extends d3.HierarchyPointLink<TreeData> {
+interface LinkProps extends Types.Link {
   x1: number;
   x2: number;
   y1: number;

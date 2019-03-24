@@ -46,3 +46,14 @@ export interface InputRef {
 }
 
 export declare function tree(ref: InputRef): TreeReturnValue;
+
+export type Link = d3.HierarchyPointLink<TreeData>;
+
+export type Node = d3.HierarchyPointNode<TreeData>;
+
+export interface Adjustment {
+  x: number;
+  y: number;
+  offsetX: number;
+  offsetY: number;
+}

@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import * as Types from "../types";
+import * as Types from "@this/types";
 import * as Button from "./Button";
 
 const PathTree = require("paths-js/tree");

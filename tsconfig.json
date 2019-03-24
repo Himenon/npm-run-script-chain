@@ -24,7 +24,10 @@
     "baseUrl": "./",
     "noLib": false,
     "declaration": true,
-    "jsx": "react"
+    "jsx": "react",
+    "paths": {
+      "@this/types": ["./src/types.ts"]
+    }
   },
   "include": [
     "src/**/*.ts",
