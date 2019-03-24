@@ -1,4 +1,4 @@
-const styles = require("../style.scss");
+const styles = require("./style.scss");
 
 export const getClassNames = (className: string): string => {
   return className

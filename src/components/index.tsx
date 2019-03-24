@@ -1,3 +1,6 @@
+import * as App from "./App";
+export { App };
+
 import * as Dendrogram from "./Dendrogram";
 export { Dendrogram };
 

@@ -1,4 +1,5 @@
 import * as webpack from "webpack";
+import { resolveApp } from "../../config/paths";
 
 export const externals: webpack.ExternalsElement | webpack.ExternalsElement[] = {
   electron: 'require("electron")',
@@ -13,7 +14,11 @@ export const externals: webpack.ExternalsElement | webpack.ExternalsElement[] = 
   file: "{}",
 };
 
-export const alias: { [key: string]: string } = {};
+export const alias: { [key: string]: string } = {
+  "@this/types": resolveApp("src/types.ts"),
+  "@domain": resolveApp("src/domain/index.ts"),
+  "@utils": resolveApp("src/utils.ts"),
+};
 
 export const nodepPolyfill: webpack.Node | false = {
   dgram: "empty",
