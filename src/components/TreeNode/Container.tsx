@@ -31,7 +31,7 @@ const generateProps = (store: Store, node: Types.Node): TreeNode.Props => {
   };
 };
 
-export const Container = ({ store }: { store: Store; children?: React.ReactNode }) =>
+export const Container = ({ store }: { store: Store }) =>
   useObserver(() => (
     <>
       {store.nodes.map((node, idx) => {

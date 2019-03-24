@@ -1,7 +1,7 @@
 import * as d3 from "d3";
 import * as React from "react";
 import * as Types from "../types";
-import * as Link from "./TreeLink/Container";
+import * as Link from "./TreeLink";
 import * as Node from "./TreeNode";
 
 export interface DendrogramProps {
@@ -26,9 +26,10 @@ export const Dendrogram = (props: DendrogramProps) => {
   const nodes = root.descendants();
   const links = root.links();
   const treeNodeStore = Node.generateStore(nodes, scale, props.updateKey);
+  const treeLinkStore = Link.generateStore(links, scale);
   return (
     <svg height={"100%"} width={"100%"}>
-      <Link.Container links={links} node={nodes[0]} scale={scale} />
+      <Link.Container store={treeLinkStore} />
       <Node.Container store={treeNodeStore} />
     </svg>
   );

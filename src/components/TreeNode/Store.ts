@@ -1,5 +1,4 @@
 import * as Types from "@this/types";
-// import { observer, useObservable } from "mobx-react-lite";
 
 export interface Store {
   radius: number;
