@@ -1,5 +1,6 @@
 import * as Types from "@this/types";
 import * as d3 from "d3";
+import * as React from "react";
 import { makeChain } from "../../parser";
 import { State } from "./State";
 
@@ -23,13 +24,13 @@ export interface Store {
   links: Types.Link[];
 }
 
-export const generateStore = (state: State): Store => {
+export const generateStore = ({ pkg }: State): Store => {
+  const [state, setState] = React.useState({ currentKey: "build" });
   const updateKey = (currentKey: string) => {
-    console.log("update!!!", currentKey);
-    state.currentKey = currentKey;
+    setState({ currentKey });
   };
 
-  const treeData = generateTreeData(state.currentKey, state.pkg);
+  const treeData = generateTreeData(state.currentKey, pkg);
   const data = d3.hierarchy(treeData);
   const root = d3.tree<Types.TreeData>()(data);
   const nodes = root.descendants();
@@ -38,8 +39,8 @@ export const generateStore = (state: State): Store => {
   return {
     npmUrl: "https://www.npmjs.com/package/npm-run-script-chain",
     updateKey,
-    pkg: state.pkg,
-    treeData: generateTreeData(state.currentKey, state.pkg),
+    pkg,
+    treeData: generateTreeData(state.currentKey, pkg),
     currentKey: state.currentKey,
     scale: {
       x: 200,

@@ -1,5 +1,5 @@
 import * as Types from "@this/types";
-import { useObserver } from "mobx-react-lite";
+
 import * as React from "react";
 import { Store } from "./Store";
 import * as Link from "./TreeLink";
@@ -13,11 +13,10 @@ const generateProps = (store: Store, link: Types.Link): Link.Props => {
   };
 };
 
-export const Container = ({ store }: { store: Store }) =>
-  useObserver(() => (
-    <>
-      {store.links.map((link, idx) => {
-        return <Link.Component {...generateProps(store, link)} key={`link-${idx}`} />;
-      })}
-    </>
-  ));
+export const Container = ({ store }: { store: Store }) => (
+  <>
+    {store.links.map((link, idx) => {
+      return <Link.Component {...generateProps(store, link)} key={`link-${idx}`} />;
+    })}
+  </>
+);

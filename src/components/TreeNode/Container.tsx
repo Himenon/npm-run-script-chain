@@ -1,5 +1,4 @@
 import * as Types from "@this/types";
-import { useObserver } from "mobx-react-lite";
 import * as React from "react";
 import { Store } from "./Store";
 import * as TreeNode from "./TreeNode";
@@ -31,11 +30,10 @@ const generateProps = (store: Store, node: Types.Node): TreeNode.Props => {
   };
 };
 
-export const Container = ({ store }: { store: Store }) =>
-  useObserver(() => (
-    <>
-      {store.nodes.map((node, idx) => {
-        return <TreeNode.Component {...generateProps(store, node)} key={`node-${idx}`} />;
-      })}
-    </>
-  ));
+export const Container = ({ store }: { store: Store }) => (
+  <>
+    {store.nodes.map((node, idx) => {
+      return <TreeNode.Component {...generateProps(store, node)} key={`node-${idx}`} />;
+    })}
+  </>
+);
