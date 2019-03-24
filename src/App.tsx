@@ -30,6 +30,7 @@ class App extends React.Component<AppProps, AppState> {
       raw: props.raw,
       key: "build",
     };
+    this.updateKey = this.updateKey.bind(this);
   }
   public render() {
     const menu = this.generateMenu(this.props.raw);
@@ -54,19 +55,18 @@ class App extends React.Component<AppProps, AppState> {
               >
                 <h1 className={styles.h2}>{this.state.key}</h1>
               </div>
-              {/* {treeData && <Tree.Component {...{ treeData, onClick }} />} */}
-              {treeData && <Dendrogram.Component {...{ data: treeData }} />}
+              {treeData && <Dendrogram.Component {...{ data: treeData, updateKey: this.updateKey }} />}
             </main>
           </div>
         </div>
       </>
     );
   }
-  // private updateKey(key: string): void {
-  //   this.setState({
-  //     key,
-  //   });
-  // }
+  private updateKey(key: string): void {
+    this.setState({
+      key,
+    });
+  }
   private getTreeData(): TreeData | undefined {
     return Tools.generateTreeData(this.state.key, this.props.raw);
   }

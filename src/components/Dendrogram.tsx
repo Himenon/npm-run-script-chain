@@ -6,7 +6,7 @@ import * as Node from "./TreeNode";
 
 export interface DendrogramProps {
   data: Types.TreeData;
-  children?: React.ReactNode;
+  updateKey: (key: string) => void;
 }
 
 /**
@@ -25,12 +25,11 @@ export const Dendrogram = (props: DendrogramProps) => {
   const root = d3.tree<Types.TreeData>()(data);
   const nodes = root.descendants();
   const links = root.links();
-  const treeNodeStore = Node.generateStore(nodes, scale);
+  const treeNodeStore = Node.generateStore(nodes, scale, props.updateKey);
   return (
     <svg height={"100%"} width={"100%"}>
-      {props.children}
       <Link.Container links={links} node={nodes[0]} scale={scale} />
-      {Node.Container(treeNodeStore)}
+      <Node.Container store={treeNodeStore} />
     </svg>
   );
 };
