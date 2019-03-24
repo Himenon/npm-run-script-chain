@@ -12,7 +12,7 @@ export const initialize = () => {
   };
   const csrProps = getCsrProps();
   const props = !!csrProps ? csrProps : defaultProps;
-  const render = !!csrProps ? ReactDOM.hydrate : ReactDOM.render;
+  const render = !!csrProps ? ReactDOM.render : ReactDOM.render;
   render(<App.Component {...props} />, document.getElementById("root"));
 };
 

@@ -1,28 +1,12 @@
 import * as d3 from "d3";
 import * as React from "react";
-import * as uuid from "uuid";
 import { TreeData } from "../types";
+import * as Link from "./TreeLink";
+import * as Node from "./TreeNode";
 
 export interface DendrogramProps {
   data: TreeData;
-}
-
-function generateTree(
-  rootNode: d3.HierarchyNode<TreeData>,
-): { nodes: d3.HierarchyPointNode<TreeData>; links: Array<d3.HierarchyPointLink<TreeData>> } {
-  const nodeSize = { x: 140, y: 140 };
-  const tree: d3.TreeLayout<TreeData> = d3
-    .tree<TreeData>()
-    .nodeSize(orientation === "horizontal" ? [nodeSize.y, nodeSize.x] : [nodeSize.x, nodeSize.y])
-    .separation((a, b) => (a.parent && b.parent && a.parent.id === b.parent.id ? 1 : 2));
-  // .children(d => (d._collapsed ? null : d._children));
-  const nodes = tree(rootNode);
-  if (nodes.children) {
-    nodes.children.forEach(node => {
-      node.y = node.depth * 0.1;
-    });
-  }
-  return { nodes, links: nodes.links() };
+  children?: React.ReactNode;
 }
 
 /**
@@ -31,30 +15,39 @@ function generateTree(
  * https://swizec.com/blog/server-side-rendering-d3-chart-react-16/swizec/7824
  */
 export class Dendrogram extends React.Component<DendrogramProps, {}> {
-  // private graphRef = React.createRef<SVGElement>();
-  // private wrapperRef = React.createRef<HTMLDivElement>();
   constructor(props: DendrogramProps) {
     super(props);
   }
-  // public componentDidMount() {
-  //   this.updateDrawing();
-  // }
-  // public updateDrawing() {
-  //   const wrapper = this.wrapperRef.current;
-  //   if (!wrapper) {
-  //     return;
-  //   }
-  //   d3.select(wrapper).selectAll();
-  // }
   public render() {
-    console.log(this.props.data);
-    const { nodes } = generateTree(d3.hierarchy(this.props.data));
-    const points = nodes.leaves().map(child => <g key={uuid.v4()} transform={`translate(${child.x}, ${child.y})`} orient="Left" />);
+    const data = d3.hierarchy(this.props.data);
+    const root = d3.tree<TreeData>()(data);
+    const nodes = root.descendants();
+    const links = root.links();
     return (
-      <svg width="800" height="600">
-        {points}
+      <svg height={600} width={980}>
+        {this.props.children}
+        {links.map((props, idx) => (
+          <Link.Component {...this.generateLinkProps(props, { x: nodes[0].x, y: nodes[0].y })} key={`link-${idx}`} />
+        ))}
+        {nodes.map((props, idx) => (
+          <Node.Component {...this.generateNodeProps(props)} key={`node-${idx}`} />
+        ))}
       </svg>
     );
+  }
+  private generateLinkProps(params: d3.HierarchyPointLink<TreeData>, add: { x: number; y: number }): Link.Props {
+    return {
+      ...params,
+      ...add,
+      x1: params.source.x,
+      x2: params.target.x,
+      y1: params.source.y,
+      y2: params.target.y,
+    };
+  }
+  private generateNodeProps(params: d3.HierarchyPointNode<TreeData>): Node.Props {
+    // @ts-ignore
+    return { ...params, x: 100, y: 100, radius: 1, offset: 1 };
   }
 }
 

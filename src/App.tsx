@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { Button, Tree } from "./components";
+import { Button, Dendrogram } from "./components";
 import * as Tools from "./generator";
 import { Package, TreeData } from "./types";
 
@@ -34,6 +34,7 @@ class App extends React.Component<AppProps, AppState> {
   public render() {
     const menu = this.generateMenu(this.props.raw);
     const treeData = this.getTreeData();
+    // @ts-ignore
     const onClick = this.updateKey.bind(this);
     return (
       <>
@@ -55,7 +56,8 @@ class App extends React.Component<AppProps, AppState> {
               >
                 <h1 className={styles.h2}>{this.state.key}</h1>
               </div>
-              {treeData && <Tree.Component {...{ treeData, onClick }} />}
+              {/* {treeData && <Tree.Component {...{ treeData, onClick }} />} */}
+              {treeData && <Dendrogram.Component {...{ data: treeData }} />}
             </main>
           </div>
         </div>
