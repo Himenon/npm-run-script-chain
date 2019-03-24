@@ -1,25 +1,17 @@
 import * as Domain from "@domain";
-import * as Types from "@this/types";
+import * as Dendrogram from "../Dendrogram";
 import * as Menu from "../Menu";
-// import * as TreeLink from "../TreeLink";
-// import * as TreeNode from "../TreeNode";
 
 export interface Store {
-  domainStores: {
-    app: Domain.App.Store;
-  };
+  domainStores: Domain.Stores;
   menuStore: Menu.Store;
-  // nodeStore: TreeNode.Store;
-  // treeLinkStore: TreeLink.Store;
+  dendrogram: Dendrogram.Store;
 }
 
-export const generateStore = (pkg: Types.Package, currentKey: string) => {
-  const app = Domain.App.generateStore(pkg, currentKey);
-  const menuStore = Menu.generateStore(app);
+export const generateStore = (domainStores: Domain.Stores): Store => {
   return {
-    domainStores: {
-      app,
-    },
-    menuStore,
+    domainStores,
+    menuStore: Menu.generateStore(domainStores),
+    dendrogram: Dendrogram.generateStore(domainStores),
   };
 };

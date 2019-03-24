@@ -1,3 +1,4 @@
+import * as Domain from "@domain";
 import * as Types from "@this/types";
 
 export interface Store {
@@ -8,12 +9,12 @@ export interface Store {
   updateKey: (key: string) => void;
 }
 
-export const generateStore = (nodes: Types.Node[], scale: Types.Adjustment, updateKey: (key: string) => void): Store => {
+export const generateStore = (domainStores: Domain.Stores): Store => {
   return {
-    nodes,
+    nodes: domainStores.app.nodes,
     radius: 5,
     offset: 1,
-    scale,
-    updateKey,
+    scale: domainStores.app.scale,
+    updateKey: domainStores.app.updateKey,
   };
 };

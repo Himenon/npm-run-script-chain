@@ -8,7 +8,6 @@ const styles = require("../../style.scss");
 
 const generateProps = (store: Store, key: string): Menu.Props => {
   const isActive = key === store.currentKey;
-  console.log(key, store.currentKey, isActive);
   return {
     li: {
       key,

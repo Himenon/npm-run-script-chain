@@ -1,3 +1,4 @@
+import * as Domain from "@domain";
 import * as Types from "@this/types";
 
 export interface Store {
@@ -5,9 +6,9 @@ export interface Store {
   scale: Types.Adjustment;
 }
 
-export const generateStore = (links: Types.Link[], scale: Types.Adjustment): Store => {
+export const generateStore = (domainStores: Domain.Stores): Store => {
   return {
-    links,
-    scale,
+    links: domainStores.app.links,
+    scale: domainStores.app.scale,
   };
 };

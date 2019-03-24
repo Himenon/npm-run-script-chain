@@ -6,10 +6,10 @@ export interface Store {
   currentKey: string;
 }
 
-export const generateStore = (appStore: Domain.App.Store): Store => {
+export const generateStore = (domainStores: Domain.Stores): Store => {
   return {
-    scripts: Object.keys(appStore.pkg.scripts),
-    currentKey: appStore.currentKey,
-    onClick: appStore.updateKey,
+    scripts: Object.keys(domainStores.app.pkg.scripts),
+    currentKey: domainStores.app.currentKey,
+    onClick: domainStores.app.updateKey,
   };
 };

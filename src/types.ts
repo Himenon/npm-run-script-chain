@@ -57,3 +57,7 @@ export interface Adjustment {
   offsetX: number;
   offsetY: number;
 }
+
+export interface InitialProps {
+  raw: Package;
+}
