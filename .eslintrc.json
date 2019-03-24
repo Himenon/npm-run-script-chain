@@ -1,6 +1,6 @@
 {
   "root": true,
-  "plugins": ["@typescript-eslint", "@typescript-eslint/tslint"],
+  "plugins": ["@typescript-eslint", "@typescript-eslint/tslint", "react-hooks"],
   "parser": "@typescript-eslint/parser",
   "env": {
     "es6": true,
@@ -12,7 +12,9 @@
       {
         "lintFile": "./tslint.json"
       }
-    ]
+    ],
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn"
   },
   "parserOptions": {
     "sourceType": "module",
