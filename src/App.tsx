@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { Button, Dendrogram } from "./components";
+import { Dendrogram, Menu } from "./components";
 import * as Tools from "./generator";
 import { Package, TreeData } from "./types";
 
@@ -33,7 +33,7 @@ class App extends React.Component<AppProps, AppState> {
     this.updateKey = this.updateKey.bind(this);
   }
   public render() {
-    const menu = this.generateMenu(this.props.raw);
+    const menuStore = Menu.generateStore(this.state.raw, this.state.key, this.updateKey);
     const treeData = this.getTreeData();
     return (
       <>
@@ -45,7 +45,9 @@ class App extends React.Component<AppProps, AppState> {
         <div className={styles.containerFluid}>
           <div className={styles.row}>
             <nav className={getClassNames("col-md-2 d-none d-md-block bg-light sidebar")}>
-              <div className={styles["sidebar-sticky"]}>{menu}</div>
+              <div className={styles["sidebar-sticky"]}>
+                <Menu.Container store={menuStore} />
+              </div>
             </nav>
             <main className={getClassNames("col-md-9 ml-sm-auto col-lg-10 px-4")}>
               <div
@@ -69,21 +71,6 @@ class App extends React.Component<AppProps, AppState> {
   }
   private getTreeData(): TreeData | undefined {
     return Tools.generateTreeData(this.state.key, this.props.raw);
-  }
-  private generateMenu(pkg: Package) {
-    const buttons: Button.Props[] = Object.keys(pkg.scripts).map(key => {
-      const props = {
-        text: key,
-        isActive: key === this.state.key,
-        onClick: () => {
-          this.setState({
-            key,
-          });
-        },
-      };
-      return props;
-    });
-    return Button.createElements(buttons);
   }
 }
 
