@@ -12,6 +12,9 @@ const generateProps = (store: Store, targetNode: Types.Node): TreeNode.Props => 
     x: targetNode.x * store.scale.x + store.scale.offsetX,
     y: targetNode.y * store.scale.y + store.scale.offsetY,
   };
+  const isLastNode = !!targetNode.children && targetNode.children.length > 0;
+  const isFirstNode = targetNode.parent === null;
+  const sign = isFirstNode || isLastNode ? -1 : 1;
   return {
     g: {
       transform: getTransform(position),
@@ -20,8 +23,9 @@ const generateProps = (store: Store, targetNode: Types.Node): TreeNode.Props => 
       r: store.radius,
     },
     text: {
-      dx: store.radius + 0.5,
+      dx: sign * 2 * store.radius,
       dy: store.offset,
+      textAnchor: isFirstNode || isLastNode ? "end" : "start",
       onClick: () => {
         store.updateKey(targetNode.data.name);
       },
