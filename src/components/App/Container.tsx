@@ -5,16 +5,22 @@ import * as Menu from "../Menu";
 import * as App from "./App";
 import { Store } from "./Store";
 
-const generateProps = (store: Store, domainState: Domain.App.State): App.Props => {
+const generateProps = (store: Store, stores: Domain.Stores): App.Props => {
   return {
-    currentKey: domainState.currentKey,
-    npmUrl: domainState.npmUrl,
-    Menu: <Menu.Container store={store.menuStore} />,
-    Dendrogram: <Dendrogram.Container store={store.dendrogram} />,
+    currentKey: stores.app.state.currentKey,
+    npmUrl: stores.app.state.npmUrl,
+    Menu: <Menu.Container {...stores} />,
+    Dendrogram: <Dendrogram.Container {...stores} />,
   };
 };
 
 export const Container = ({ store }: { store: Store }) => {
-  const domainState = React.useReducer(...store.domainStores.app.params)[0];
-  return <App.Component {...generateProps(store, domainState)} />;
+  const [appState, appDispatcher] = React.useReducer(...store.domainStores.app.params);
+  const params: Domain.Stores = {
+    app: {
+      state: appState,
+      dispatch: appDispatcher,
+    },
+  };
+  return <App.Component {...generateProps(store, params)} />;
 };

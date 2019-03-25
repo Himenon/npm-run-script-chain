@@ -1,14 +1,12 @@
 import * as Domain from "@domain";
-import * as Types from "@this/types";
 import classNames from "classnames";
 import * as React from "react";
 import * as Menu from "./Menu";
-import { Store } from "./Store";
 
 const styles = require("../../style.scss");
 
-const generateProps = (key: string, domainState: Domain.App.State, dispatch: Types.Dispatcher): Menu.Props => {
-  const isActive = key === domainState.currentKey;
+const generateProps = (key: string, stores: Domain.Stores): Menu.Props => {
+  const isActive = key === stores.app.state.currentKey;
   return {
     li: {
       key,
@@ -17,7 +15,7 @@ const generateProps = (key: string, domainState: Domain.App.State, dispatch: Typ
       href: "#",
       className: classNames(styles.navLink, isActive ? styles.active : ""),
       onClick: () => {
-        dispatch({
+        stores.app.dispatch({
           type: "UPDATE_KEY",
           currentKey: key,
         });
@@ -27,12 +25,11 @@ const generateProps = (key: string, domainState: Domain.App.State, dispatch: Typ
   };
 };
 
-export const Container = ({ store }: { store: Store }) => {
-  const [domainState, dispatch] = React.useReducer(...store.domainStores.app.params);
+export const Container = (stores: Domain.Stores) => {
   return (
     <ul className={classNames(styles.nav, styles.flexColumn)}>
-      {domainState.scripts.map(key => {
-        return <Menu.Component {...generateProps(key, domainState, dispatch)} key={`menu-item-${key}`} />;
+      {stores.app.state.scripts.map(key => {
+        return <Menu.Component {...generateProps(key, stores)} key={`menu-item-${key}`} />;
       })}
     </ul>
   );

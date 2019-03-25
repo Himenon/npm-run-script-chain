@@ -7,7 +7,7 @@ export interface Store {
   nodeStore: Node.Store;
 }
 
-export const generateStore = (domainStores: Domain.Stores): Store => {
+export const generateStore = (domainStores: Domain.Reducers): Store => {
   return {
     nodeStore: Node.generateStore(domainStores),
     linkStore: Link.generateStore(domainStores),

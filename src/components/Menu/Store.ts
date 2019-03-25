@@ -1,10 +1,10 @@
 import * as Domain from "@domain";
 
 export interface Store {
-  domainStores: Domain.Stores;
+  domainStores: Domain.Reducers;
 }
 
-export const generateStore = (domainStores: Domain.Stores): Store => {
+export const generateStore = (domainStores: Domain.Reducers): Store => {
   return {
     domainStores,
   };
