@@ -1,19 +1,22 @@
+import * as Domain from "@domain";
+import * as Types from "@this/types";
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import * as App from "./App";
+import * as Main from "./Main";
 
-const getCsrProps = (): App.Props | undefined => (window as any).__INITIAL_STATE__;
+const getCsrProps = (): Types.InitialProps | undefined => (window as any).__INITIAL_STATE__;
 
-export const initialize = () => {
-  const defaultProps: App.Props = {
+export function initialize() {
+  const defaultProps: Types.InitialProps = {
     raw: {
       scripts: {},
     },
   };
   const csrProps = getCsrProps();
-  const props = !!csrProps ? csrProps : defaultProps;
-  const render = !!csrProps ? ReactDOM.hydrate : ReactDOM.render;
-  render(<App.Component {...props} />, document.getElementById("root"));
-};
+  const props: Types.InitialProps = !!csrProps ? csrProps : defaultProps;
+  const reducers = Domain.createReducers(props.raw);
+  const render = !!csrProps ? ReactDOM.render : ReactDOM.render;
+  render(<Main.Component reducers={reducers} />, document.getElementById("root"));
+}
 
 initialize();
