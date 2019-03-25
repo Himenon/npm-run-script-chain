@@ -1,15 +1,15 @@
 import * as Domain from "@domain";
-import * as Link from "../TreeLink";
-import * as Node from "../TreeNode";
+import * as TreeLink from "../TreeLink";
+import * as TreeNode from "../TreeNode";
 
 export interface Store {
-  linkStore: Link.Store;
-  nodeStore: Node.Store;
+  treeLinkStore: TreeLink.Store;
+  treeNodeStore: TreeNode.Store;
 }
 
 export const generateStore = (domainStores: Domain.Stores): Store => {
   return {
-    nodeStore: Node.generateStore(domainStores),
-    linkStore: Link.generateStore(domainStores),
+    treeNodeStore: TreeNode.generateStore(domainStores),
+    treeLinkStore: TreeLink.generateStore(domainStores),
   };
 };
