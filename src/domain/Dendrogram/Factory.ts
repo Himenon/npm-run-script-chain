@@ -24,11 +24,11 @@ export const generateState = (currentKey: string, pkg: Types.Package): State => 
     scale: {
       x: 200,
       y: 400,
-      offsetX: 0,
+      offsetX: 15,
       offsetY: 100,
     },
     radius: 5,
-    offset: 1,
+    offset: 2.5,
     nodes,
     links,
   };

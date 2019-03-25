@@ -10,6 +10,11 @@
 @import "./styles/_display.scss";
 @import './styles/_flex.scss';
 
+.background {
+	background-color: #333;
+	border-radius: 3px;
+}
+
 .node {
 	fill: white;
 	cursor: pointer;
@@ -31,6 +36,6 @@
 
 .link {
 	fill: none;
-	stroke: black;
+	stroke: #2593B8;;
 	stroke-width: 1.5px;
 }
