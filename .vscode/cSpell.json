@@ -5,7 +5,8 @@
     "commitlint",
     "commitmsg",
     "codecov",
-    "webhook"
+    "webhook",
+    "dendrogram"
   ],
   "flagWords": [
       "hte"

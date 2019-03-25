@@ -5,9 +5,4 @@ export interface State {
   currentKey: string;
   pkg: Types.Package;
   scripts: string[];
-  scale: Types.Adjustment;
-  nodes: Types.Node[];
-  links: Types.Link[];
-  radius: number;
-  offset: number;
 }

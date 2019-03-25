@@ -8,7 +8,7 @@ export interface Store {
 
 export const generateStore = (domainStores: Domain.Stores): Store => {
   return {
-    scale: domainStores.app.state.scale,
-    links: domainStores.app.state.links,
+    scale: domainStores.dendrogram.state.scale,
+    links: domainStores.dendrogram.state.links,
   };
 };

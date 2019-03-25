@@ -7,7 +7,7 @@ export interface ViewStore {
   dendrogram: Dendrogram.Store;
 }
 
-export const createViewStores = (stores: Domain.Stores): ViewStore => {
+export const createViewStore = (stores: Domain.Stores): ViewStore => {
   return {
     menuStore: Menu.generateStore(stores),
     dendrogram: Dendrogram.generateStore(stores),

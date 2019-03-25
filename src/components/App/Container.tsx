@@ -3,7 +3,7 @@ import * as React from "react";
 import * as Dendrogram from "../Dendrogram";
 import * as Menu from "../Menu";
 import * as App from "./App";
-import { createViewStores, ViewStore } from "./Store";
+import { createViewStore, ViewStore } from "./Store";
 
 const generateProps = (stores: Domain.Stores, viewStore: ViewStore): App.Props => {
   return {
@@ -15,13 +15,11 @@ const generateProps = (stores: Domain.Stores, viewStore: ViewStore): App.Props =
 };
 
 export const Container = ({ reducers }: { reducers: Domain.Reducers }) => {
-  const [appState, appDispatcher] = React.useReducer(...reducers.app);
+  const createReducer = <T, S>([state, dispatch]: [T, S]): { state: T; dispatch: S } => ({ state, dispatch });
   const domainStores: Domain.Stores = {
-    app: {
-      state: appState,
-      dispatch: appDispatcher,
-    },
+    app: createReducer(React.useReducer(...reducers.app)),
+    dendrogram: createReducer(React.useReducer(...reducers.dendrogram)),
   };
-  const stores = createViewStores(domainStores);
-  return <App.Component {...generateProps(domainStores, stores)} />;
+  const viewStore = createViewStore(domainStores);
+  return <App.Component {...generateProps(domainStores, viewStore)} />;
 };

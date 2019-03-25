@@ -16,10 +16,15 @@ export const generateStore = (domainStores: Domain.Stores): Store => {
         type: "UPDATE_KEY",
         currentKey: key,
       });
+      domainStores.dendrogram.dispatch({
+        type: "UPDATE_KEY",
+        currentKey: key,
+        pkg: domainStores.app.state.pkg,
+      });
     },
-    scale: domainStores.app.state.scale,
-    radius: domainStores.app.state.radius,
-    offset: domainStores.app.state.offset,
-    nodes: domainStores.app.state.nodes,
+    scale: domainStores.dendrogram.state.scale,
+    radius: domainStores.dendrogram.state.radius,
+    offset: domainStores.dendrogram.state.offset,
+    nodes: domainStores.dendrogram.state.nodes,
   };
 };

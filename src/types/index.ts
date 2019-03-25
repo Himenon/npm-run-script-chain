@@ -59,5 +59,5 @@ export interface Adjustment {
 }
 
 export interface InitialProps {
-  raw: Package;
+  pkg: Package;
 }
