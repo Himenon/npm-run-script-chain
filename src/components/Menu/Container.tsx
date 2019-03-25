@@ -5,8 +5,8 @@ import { Store } from "./Store";
 
 const styles = require("../../style.scss");
 
-const generateProps = (store: Store, key: string): Menu.Props => {
-  const isActive = key === store.currentKey;
+const generateProps = (key: string, currentKey: string, dispatch: (key: string) => void): Menu.Props => {
+  const isActive = key === currentKey;
   return {
     li: {
       key,
@@ -15,17 +15,20 @@ const generateProps = (store: Store, key: string): Menu.Props => {
       href: "#",
       className: classNames(styles.navLink, isActive ? styles.active : ""),
       onClick: () => {
-        store.onClick(key);
+        dispatch(key);
       },
       children: key,
     },
   };
 };
 
-export const Container = ({ store }: { store: Store }) => (
-  <ul className={classNames(styles.nav, styles.flexColumn)}>
-    {store.scripts.map(key => {
-      return <Menu.Component {...generateProps(store, key)} key={`menu-item-${key}`} />;
-    })}
-  </ul>
-);
+export const Container = ({ store }: { store: Store }) => {
+  const { currentKey, dispatch } = store.domainStores.app.generateReactState();
+  return (
+    <ul className={classNames(styles.nav, styles.flexColumn)}>
+      {store.scripts.map(key => {
+        return <Menu.Component {...generateProps(key, currentKey, dispatch)} key={`menu-item-${key}`} />;
+      })}
+    </ul>
+  );
+};

@@ -2,14 +2,12 @@ import * as Domain from "@domain";
 
 export interface Store {
   scripts: string[];
-  onClick: (key: string) => void;
-  currentKey: string;
+  domainStores: Domain.Stores;
 }
 
 export const generateStore = (domainStores: Domain.Stores): Store => {
   return {
     scripts: Object.keys(domainStores.app.pkg.scripts),
-    currentKey: domainStores.app.currentKey,
-    onClick: domainStores.app.updateKey,
+    domainStores,
   };
 };

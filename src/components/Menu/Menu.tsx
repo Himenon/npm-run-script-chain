@@ -1,4 +1,3 @@
-// import classNames from "classnames";
 import * as React from "react";
 
 const styles = require("../../style.scss");

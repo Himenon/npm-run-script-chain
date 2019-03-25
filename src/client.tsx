@@ -1,11 +1,13 @@
+import * as Domain from "@domain";
 import * as Types from "@this/types";
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import * as App from "./App";
+import * as App from "./components/App";
+import * as Main from "./Main";
 
 const getCsrProps = (): Types.InitialProps | undefined => (window as any).__INITIAL_STATE__;
 
-export const initialize = () => {
+export function initialize() {
   const defaultProps: Types.InitialProps = {
     raw: {
       scripts: {},
@@ -13,9 +15,10 @@ export const initialize = () => {
   };
   const csrProps = getCsrProps();
   const props: Types.InitialProps = !!csrProps ? csrProps : defaultProps;
-  const domainStores = App.generateDomainStore(props.raw);
+  const domainStores = Domain.generateDomainStore(props.raw);
+  const store = App.generateStore(domainStores);
   const render = !!csrProps ? ReactDOM.render : ReactDOM.render;
-  render(<App.Component domainStores={domainStores} />, document.getElementById("root"));
-};
+  render(<Main.Component store={store} />, document.getElementById("root"));
+}
 
 initialize();

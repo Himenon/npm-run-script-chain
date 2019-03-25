@@ -6,11 +6,11 @@ const styles = require("../../style.scss");
 interface AppProps {
   currentKey: string;
   npmUrl: string;
-  MenuContainer: any;
+  Menu: JSX.Element;
   Dendrogram: JSX.Element;
 }
 
-const App = ({ Dendrogram, MenuContainer, npmUrl, currentKey }: AppProps) => {
+const App = ({ Dendrogram, Menu, npmUrl, currentKey }: AppProps) => {
   return (
     <>
       <nav className={getClassNames("navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow")}>
@@ -21,7 +21,7 @@ const App = ({ Dendrogram, MenuContainer, npmUrl, currentKey }: AppProps) => {
       <div className={styles.containerFluid}>
         <div className={styles.row}>
           <nav className={getClassNames("col-md-2 d-none d-md-block bg-light sidebar")}>
-            <div className={styles["sidebar-sticky"]}>{MenuContainer}</div>
+            <div className={styles["sidebar-sticky"]}>{Menu}</div>
           </nav>
           <main className={getClassNames("col-md-9 ml-sm-auto col-lg-10 px-4")}>
             <div

@@ -6,7 +6,7 @@ export interface Store {
   offset: number;
   scale: Types.Adjustment;
   nodes: Types.Node[];
-  updateKey: (key: string) => void;
+  domainStores: Domain.Stores;
 }
 
 export const generateStore = (domainStores: Domain.Stores): Store => {
@@ -15,6 +15,6 @@ export const generateStore = (domainStores: Domain.Stores): Store => {
     radius: 5,
     offset: 1,
     scale: domainStores.app.scale,
-    updateKey: domainStores.app.updateKey,
+    domainStores,
   };
 };

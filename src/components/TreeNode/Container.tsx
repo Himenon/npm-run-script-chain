@@ -7,7 +7,7 @@ const getTransform = (position: { x: number; y: number }) => {
   return `translate(${position.y}, ${position.x})`;
 };
 
-const generateProps = (store: Store, node: Types.Node): TreeNode.Props => {
+const generateProps = (store: Store, node: Types.Node, dispatch: (key: string) => void): TreeNode.Props => {
   const position = {
     x: node.x * store.scale.x + store.scale.offsetX,
     y: node.y * store.scale.y + store.scale.offsetY,
@@ -23,17 +23,20 @@ const generateProps = (store: Store, node: Types.Node): TreeNode.Props => {
       dx: store.radius + 0.5,
       dy: store.offset,
       onClick: () => {
-        store.updateKey(node.data.name);
+        dispatch(node.data.name);
       },
       children: node.data.name,
     },
   };
 };
 
-export const Container = ({ store }: { store: Store }) => (
-  <>
-    {store.nodes.map((node, idx) => {
-      return <TreeNode.Component {...generateProps(store, node)} key={`node-${idx}`} />;
-    })}
-  </>
-);
+export const Container = ({ store }: { store: Store }) => {
+  const { dispatch } = store.domainStores.app.generateReactState();
+  return (
+    <>
+      {store.nodes.map((node, idx) => {
+        return <TreeNode.Component {...generateProps(store, node, dispatch)} key={`node-${idx}`} />;
+      })}
+    </>
+  );
+};
