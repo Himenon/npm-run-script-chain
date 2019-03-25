@@ -1,14 +1,13 @@
-import * as Domain from "@domain";
 import * as React from "react";
 import * as Link from "../TreeLink";
 import * as Node from "../TreeNode";
+import { Store } from "./Store";
 
-export const Container = ({ stores, nodeStore }: { stores: Domain.Stores; nodeStore: Node.Store }) => {
-  console.log(nodeStore);
+export const Container = ({ store }: { store: Store }) => {
   return (
     <svg height={"100%"} width={"100%"}>
-      <Link.Container {...stores} />
-      <Node.Container store={nodeStore} />
+      <Link.Container store={store.linkStore} />
+      <Node.Container store={store.nodeStore} />
     </svg>
   );
 };

@@ -23,8 +23,6 @@ const generateProps = (store: Store, targetNode: Types.Node): TreeNode.Props => 
       dx: store.radius + 0.5,
       dy: store.offset,
       onClick: () => {
-        console.log("アップデートやああ");
-        console.log(store);
         store.updateKey(targetNode.data.name);
       },
       children: targetNode.data.name,

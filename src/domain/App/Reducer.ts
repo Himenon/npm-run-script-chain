@@ -40,12 +40,7 @@ export const generateState = (currentKey: string, pkg: Types.Package): State => 
 export const appReducer = (state: State, action: Types.Action): State => {
   switch (action.type) {
     case "UPDATE_KEY": {
-      console.log("UPDATE_KEY", action.currentKey);
       const newState = generateState(action.currentKey, state.pkg);
-      console.log({
-        oldState: state,
-        newState,
-      });
       return newState;
     }
     default:

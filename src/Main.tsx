@@ -1,13 +1,13 @@
-import { observer } from "mobx-react-lite";
+import * as Domain from "@domain";
 import * as React from "react";
 import { App } from "./components";
 
 interface MainProps {
-  store: App.Store;
+  reducers: Domain.Reducers;
 }
 
-export const Main = observer(({ store }: MainProps) => {
-  return <App.Container store={store} />;
-});
+export const Main = ({ reducers }: MainProps) => {
+  return <App.Container reducers={reducers} />;
+};
 
 export { MainProps as Props, Main as Component };

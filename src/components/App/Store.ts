@@ -2,24 +2,14 @@ import * as Domain from "@domain";
 import * as Dendrogram from "../Dendrogram";
 import * as Menu from "../Menu";
 
-export interface Store {
-  reducers: Domain.Reducers;
-}
-
 export interface ViewStore {
   menuStore: Menu.Store;
   dendrogram: Dendrogram.Store;
 }
 
-export const generateStore = (reducers: Domain.Reducers) => {
+export const createViewStores = (stores: Domain.Stores): ViewStore => {
   return {
-    reducers,
-  };
-};
-
-export const generateApplicationStores = (reducers: Domain.Reducers, stores: Domain.Stores): ViewStore => {
-  return {
-    menuStore: Menu.generateStore(reducers),
-    dendrogram: Dendrogram.generateStore(reducers, stores),
+    menuStore: Menu.generateStore(stores),
+    dendrogram: Dendrogram.generateStore(stores),
   };
 };
