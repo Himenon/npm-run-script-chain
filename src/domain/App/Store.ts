@@ -2,13 +2,9 @@ import * as Types from "@this/types";
 import { appReducer, generateState } from "./Reducer";
 import { State } from "./State";
 
-export interface Store {
-  params: [typeof appReducer, State];
-}
+export type Reducer = [typeof appReducer, State];
 
-export const generateStore = ({ pkg }: { pkg: Types.Package }): Store => {
+export const createReducer = ({ pkg }: { pkg: Types.Package }): Reducer => {
   const initialState = generateState("start", pkg);
-  return {
-    params: [appReducer, initialState],
-  };
+  return [appReducer, initialState];
 };

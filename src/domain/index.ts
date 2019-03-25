@@ -4,7 +4,7 @@ import * as App from "./App";
 export { App };
 
 export interface Reducers {
-  app: App.Store;
+  app: App.Reducer;
 }
 
 export interface Stores {
@@ -14,22 +14,8 @@ export interface Stores {
   };
 }
 
-export interface States {
-  app: App.State;
-}
-
-export interface Dispatchers {
-  app: Types.Dispatcher;
-}
-
-export interface ContainerParams {
-  domainState: States;
-  dispatchers: Dispatchers;
-}
-
-export const generateDomainStore = (pkg: Types.Package): Reducers => {
-  const app = App.generateStore({ pkg });
+export const createReducers = (pkg: Types.Package): Reducers => {
   return {
-    app,
+    app: App.createReducer({ pkg }),
   };
 };

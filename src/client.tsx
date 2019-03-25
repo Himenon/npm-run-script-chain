@@ -15,8 +15,8 @@ export function initialize() {
   };
   const csrProps = getCsrProps();
   const props: Types.InitialProps = !!csrProps ? csrProps : defaultProps;
-  const domainStores = Domain.generateDomainStore(props.raw);
-  const store = App.generateStore(domainStores);
+  const reducers = Domain.createReducers(props.raw);
+  const store = App.generateStore(reducers);
   const render = !!csrProps ? ReactDOM.render : ReactDOM.render;
   render(<Main.Component store={store} />, document.getElementById("root"));
 }

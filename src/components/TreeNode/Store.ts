@@ -1,11 +1,25 @@
 import * as Domain from "@domain";
+import * as Types from "@this/types";
 
 export interface Store {
-  domainStores: Domain.Reducers;
+  updateKey: (key: string) => void;
+  scale: Types.Adjustment;
+  radius: number;
+  offset: number;
+  nodes: Types.Node[];
 }
 
-export const generateStore = (domainStores: Domain.Reducers): Store => {
+export const generateStore = (domainStores: Domain.Stores): Store => {
   return {
-    domainStores,
+    updateKey: (key: string) => {
+      domainStores.app.dispatch({
+        type: "UPDATE_KEY",
+        currentKey: key,
+      });
+    },
+    scale: domainStores.app.state.scale,
+    radius: domainStores.app.state.radius,
+    offset: domainStores.app.state.offset,
+    nodes: domainStores.app.state.nodes,
   };
 };

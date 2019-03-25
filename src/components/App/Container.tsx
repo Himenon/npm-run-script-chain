@@ -3,24 +3,25 @@ import * as React from "react";
 import * as Dendrogram from "../Dendrogram";
 import * as Menu from "../Menu";
 import * as App from "./App";
-import { Store } from "./Store";
+import { generateApplicationStores, Store, ViewStore } from "./Store";
 
-const generateProps = (store: Store, stores: Domain.Stores): App.Props => {
+const generateProps = (stores: Domain.Stores, viewStore: ViewStore): App.Props => {
   return {
     currentKey: stores.app.state.currentKey,
     npmUrl: stores.app.state.npmUrl,
     Menu: <Menu.Container {...stores} />,
-    Dendrogram: <Dendrogram.Container {...stores} />,
+    Dendrogram: <Dendrogram.Container stores={stores} nodeStore={viewStore.dendrogram.nodeStore} />,
   };
 };
 
 export const Container = ({ store }: { store: Store }) => {
-  const [appState, appDispatcher] = React.useReducer(...store.domainStores.app.params);
-  const params: Domain.Stores = {
+  const [appState, appDispatcher] = React.useReducer(...store.reducers.app);
+  const domainStores: Domain.Stores = {
     app: {
       state: appState,
       dispatch: appDispatcher,
     },
   };
-  return <App.Component {...generateProps(store, params)} />;
+  const stores = generateApplicationStores(store.reducers, domainStores);
+  return <App.Component {...generateProps(domainStores, stores)} />;
 };

@@ -6,7 +6,7 @@ import * as App from "./components/App";
 import * as Main from "./Main";
 
 export const generateSsrHtml = (props: Types.InitialProps): string => {
-  const domainStores = Domain.generateDomainStore(props.raw);
+  const domainStores = Domain.createReducers(props.raw);
   const store = App.generateStore(domainStores);
   return renderToString(<Main.Component store={store} />);
 };

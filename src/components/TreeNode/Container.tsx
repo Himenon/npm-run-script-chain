@@ -1,44 +1,41 @@
-import * as Domain from "@domain";
 import * as Types from "@this/types";
 import * as React from "react";
+import { Store } from "./Store";
 import * as TreeNode from "./TreeNode";
 
 const getTransform = (position: { x: number; y: number }) => {
   return `translate(${position.y}, ${position.x})`;
 };
 
-const generateProps = (stores: Domain.Stores, targetNode: Types.Node): TreeNode.Props => {
+const generateProps = (store: Store, targetNode: Types.Node): TreeNode.Props => {
   const position = {
-    x: targetNode.x * stores.app.state.scale.x + stores.app.state.scale.offsetX,
-    y: targetNode.y * stores.app.state.scale.y + stores.app.state.scale.offsetY,
+    x: targetNode.x * store.scale.x + store.scale.offsetX,
+    y: targetNode.y * store.scale.y + store.scale.offsetY,
   };
   return {
     g: {
       transform: getTransform(position),
     },
     circle: {
-      r: stores.app.state.radius,
+      r: store.radius,
     },
     text: {
-      dx: stores.app.state.radius + 0.5,
-      dy: stores.app.state.offset,
+      dx: store.radius + 0.5,
+      dy: store.offset,
       onClick: () => {
-        stores.app.dispatch({
-          type: "UPDATE_KEY",
-          currentKey: targetNode.data.name,
-        });
+        console.log("アップデートやああ");
+        console.log(store);
+        store.updateKey(targetNode.data.name);
       },
       children: targetNode.data.name,
     },
   };
 };
 
-export const Container = (stores: Domain.Stores) => {
-  return (
-    <>
-      {stores.app.state.nodes.map((node, idx) => {
-        return <TreeNode.Component {...generateProps(stores, node)} key={`node-${idx}`} />;
-      })}
-    </>
-  );
-};
+export const Container = ({ store }: { store: Store }) => (
+  <>
+    {store.nodes.map((node, idx) => {
+      return <TreeNode.Component {...generateProps(store, node)} key={`node-${idx}`} />;
+    })}
+  </>
+);
