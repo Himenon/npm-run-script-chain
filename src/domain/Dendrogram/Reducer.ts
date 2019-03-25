@@ -6,7 +6,7 @@ import { State } from "./State";
 export const reducer = (state: State, action: ActionTypes): State => {
   switch (action.type) {
     case "UPDATE_KEY": {
-      return Factory.generateState(action.currentKey, state.pkg);
+      return Factory.generateState(action.currentKey, action.pkg);
     }
     default:
       return state;

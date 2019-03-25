@@ -8,13 +8,13 @@ const getCsrProps = (): Types.InitialProps | undefined => (window as any).__INIT
 
 export function initialize() {
   const defaultProps: Types.InitialProps = {
-    raw: {
+    pkg: {
       scripts: {},
     },
   };
   const csrProps = getCsrProps();
   const props: Types.InitialProps = !!csrProps ? csrProps : defaultProps;
-  const reducers = Domain.createReducers(props.raw);
+  const reducers = Domain.createReducers({ key: "start", pkg: props.pkg });
   const render = !!csrProps ? ReactDOM.render : ReactDOM.render;
   render(<Main.Component reducers={reducers} />, document.getElementById("root"));
 }

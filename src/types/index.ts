@@ -1,5 +1,3 @@
-import * as React from "react";
-
 export interface Package {
   scripts: {
     [key: string]: string;
@@ -61,12 +59,5 @@ export interface Adjustment {
 }
 
 export interface InitialProps {
-  raw: Package;
+  pkg: Package;
 }
-
-export interface Action {
-  type: "UPDATE_KEY";
-  currentKey: string;
-}
-
-export type Dispatcher = React.Dispatch<Action>;

@@ -9,7 +9,7 @@ export const createServer = (libDir: string, baseDir: string, inputFile: string)
   const pkg = require(packageJsonFile);
 
   const applyProps = (): string => {
-    const props = { raw: pkg };
+    const props = { pkg };
     const template = cacheTemplate ? cacheTemplate : fs.readFileSync(path.join(libDir, "build/index.html"), { encoding: "utf-8" });
     cacheTemplate = template;
     return template.replace("{{ SSR_DOM }}", "").replace("{{ SSR_INITIAL_STATE }}", JSON.stringify(props));

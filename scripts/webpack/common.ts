@@ -15,7 +15,7 @@ export const externals: webpack.ExternalsElement | webpack.ExternalsElement[] = 
 };
 
 export const alias: { [key: string]: string } = {
-  "@this/types": resolveApp("src/types.ts"),
+  "@this/types": resolveApp("src/types/index.ts"),
   "@domain": resolveApp("src/domain/index.ts"),
   "@utils": resolveApp("src/utils.ts"),
 };
