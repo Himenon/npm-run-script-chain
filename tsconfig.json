@@ -26,7 +26,7 @@
     "declaration": true,
     "jsx": "react",
     "paths": {
-      "@this/types": ["./src/types.ts"],
+      "@this/types": ["./src/types/index.ts"],
       "@utils": ["./src/utils.ts"],
       "@domain": ["./src/domain/index.ts"]
     }

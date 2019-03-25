@@ -10,12 +10,12 @@ export interface Reducers {
 export interface Stores {
   app: {
     state: App.State;
-    dispatch: Types.Dispatcher;
+    dispatch: App.Dispatch;
   };
 }
 
 export const createReducers = (pkg: Types.Package): Reducers => {
   return {
-    app: App.createReducer({ pkg }),
+    app: App.createReducer({ key: "start", pkg }),
   };
 };
