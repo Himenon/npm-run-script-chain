@@ -1,4 +1,4 @@
-import { Package, TreeData } from "./types";
+import { Package, TreeData } from "@this/types";
 
 export interface SplitScript {
   key: string;

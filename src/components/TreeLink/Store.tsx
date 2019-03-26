@@ -1,14 +1,12 @@
-import * as Domain from "@domain";
 import * as Types from "@this/types";
+import { State } from "./State";
 
 export interface Store {
   scale: Types.Adjustment;
   links: Types.Link[];
 }
 
-export const generateStore = (domainStores: Domain.Stores): Store => {
-  return {
-    scale: domainStores.dendrogram.state.scale,
-    links: domainStores.dendrogram.state.links,
-  };
-};
+export const generateStore = (state: State): Store => ({
+  scale: state.scale,
+  links: state.links,
+});
