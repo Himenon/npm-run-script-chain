@@ -1,6 +1,5 @@
 import * as Domain from "@domain";
 import * as Types from "@this/types";
-import { State } from "./State";
 
 export interface Store {
   updateKey: (key: string) => void;
@@ -10,15 +9,15 @@ export interface Store {
   nodes: Types.Node[];
 }
 
-export const generateStore = (domainStores: Domain.Stores, state: State): Store => ({
+export const generateStore = (domainStores: Domain.Stores): Store => ({
   updateKey: (key: string) => {
     domainStores.app.dispatch({
       type: "UPDATE_KEY",
       currentKey: key,
     });
   },
-  scale: state.scale,
-  radius: state.radius,
-  offset: state.offset,
-  nodes: state.nodes,
+  scale: domainStores.app.state.scale,
+  radius: domainStores.app.state.radius,
+  offset: domainStores.app.state.offset,
+  nodes: domainStores.app.state.nodes,
 });

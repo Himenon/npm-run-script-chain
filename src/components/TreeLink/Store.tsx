@@ -1,12 +1,12 @@
+import * as Domain from "@domain";
 import * as Types from "@this/types";
-import { State } from "./State";
 
 export interface Store {
   scale: Types.Adjustment;
   links: Types.Link[];
 }
 
-export const generateStore = (state: State): Store => ({
-  scale: state.scale,
-  links: state.links,
+export const generateStore = (domainStores: Domain.Stores): Store => ({
+  scale: domainStores.app.state.scale,
+  links: domainStores.app.state.links,
 });
