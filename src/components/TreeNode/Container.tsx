@@ -9,8 +9,8 @@ const getTransform = (position: { x: number; y: number }) => {
 
 const generateProps = (store: Store, targetNode: Types.Node): TreeNode.Props => {
   const position = {
-    x: targetNode.x * store.scale.x + store.scale.offsetX,
-    y: targetNode.y * store.scale.y + store.scale.offsetY,
+    x: targetNode.x * store.position.scale.x + store.position.offset.x,
+    y: targetNode.y * store.position.scale.y + store.position.offset.y,
   };
   const isLastNode = !!targetNode.children && targetNode.children.length > 0;
   const isFirstNode = targetNode.parent === null;
@@ -24,7 +24,7 @@ const generateProps = (store: Store, targetNode: Types.Node): TreeNode.Props => 
     },
     text: {
       dx: sign * 2 * store.radius,
-      dy: store.offset,
+      dy: store.text.offset,
       textAnchor: isFirstNode || isLastNode ? "end" : "start",
       onClick: () => {
         store.updateKey(targetNode.data.name);
@@ -34,10 +34,15 @@ const generateProps = (store: Store, targetNode: Types.Node): TreeNode.Props => 
   };
 };
 
-export const Container = ({ store }: { store: Store }) => (
-  <>
-    {store.nodes.map((node, idx) => {
-      return <TreeNode.Component {...generateProps(store, node)} key={`node-${idx}`} />;
-    })}
-  </>
-);
+export const Container = ({ store }: { store: Store }) => {
+  if (!store.canShow) {
+    return null;
+  }
+  return (
+    <>
+      {store.nodes.map((node, idx) => {
+        return <TreeNode.Component {...generateProps(store, node)} key={`node-${idx}`} />;
+      })}
+    </>
+  );
+};

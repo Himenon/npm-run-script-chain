@@ -20,14 +20,6 @@ export const generateState = (currentKey: string, pkg: Types.Package): State => 
   const links = root.links();
   return {
     npmUrl: "https://www.npmjs.com/package/npm-run-script-chain",
-    scale: {
-      x: 200,
-      y: 400,
-      offsetX: 15,
-      offsetY: 100,
-    },
-    radius: 5,
-    offset: 2.5,
     nodes,
     links,
     currentKey,

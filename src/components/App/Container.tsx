@@ -18,6 +18,7 @@ export const Container = ({ reducers }: { reducers: Domain.Reducers }) => {
   const createReducer = <T, S>([state, dispatch]: [T, S]): { state: T; dispatch: S } => ({ state, dispatch });
   const domainStores: Domain.Stores = {
     app: createReducer(React.useReducer(...reducers.app)),
+    dendrogram: createReducer(React.useReducer(...reducers.dendrogram)),
   };
   const viewStore = createViewStore(domainStores);
   return <App.Component {...generateProps(domainStores, viewStore)} />;
