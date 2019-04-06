@@ -14,6 +14,7 @@ export function initialize() {
     library: {
       name: "",
       version: "",
+      repository: "",
     },
   };
   const csrProps = getCsrProps();

@@ -17,6 +17,7 @@ export type Node = d3.HierarchyPointNode<TreeData>;
 export interface Library {
   name: string;
   version: string;
+  repository: string;
 }
 
 export interface InitialProps {

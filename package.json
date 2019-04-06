@@ -10,7 +10,7 @@
   "bugs": {
     "url": "https://github.com/Himenon/npm-run-script-chain/issues"
   },
-  "repository": "Himenon/npm-run-script-chain",
+  "repository": "https://github.com/Himenon/npm-run-script-chain",
   "license": "MIT",
   "author": {
     "name": "Himenon",

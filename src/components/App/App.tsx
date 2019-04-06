@@ -10,6 +10,7 @@ interface AppProps {
   library: {
     name: string;
     version: string;
+    repository: string;
   };
   Menu: JSX.Element;
   Dendrogram: JSX.Element;
@@ -19,7 +20,7 @@ interface AppProps {
 const App = ({ Description, Dendrogram, Menu, npmUrl, currentKey, library }: AppProps) => {
   return (
     <>
-      <ForkMe url="https://github.com/Himenon/npm-run-script-chain" className={styles.nrscForkMe} />
+      <ForkMe url={library.repository} className={styles.nrscForkMe} />
       <nav className={getClassNames("navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow nrsc-top-nav")}>
         <a className={getClassNames("navbar-brand col-sm-3 col-md-2 mr-0")} href={npmUrl} target="_blank" rel="noopener">
           {library.name} v{library.version}

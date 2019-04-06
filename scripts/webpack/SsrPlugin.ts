@@ -36,6 +36,7 @@ export class ServerSideRenderingPlugin {
           library: {
             name: this.appPkg.name,
             version: this.appPkg.version,
+            repository: this.appPkg.repository,
           },
         };
         // const html = this.generateSsrHtml(props);

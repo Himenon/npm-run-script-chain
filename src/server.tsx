@@ -1,3 +1,4 @@
+import * as Types from "@this/types";
 import * as express from "express";
 import * as fs from "fs";
 import * as path from "path";
@@ -7,10 +8,17 @@ export const createServer = (libDir: string, baseDir: string, inputFile: string)
   const packageJsonFile = path.join(baseDir, inputFile);
   const app = express();
   const pkg = require(packageJsonFile);
-  const appPkg = require(path.resolve(__dirname, "../package.json"));
+  const appPkg = require(path.join(libDir, "package.json"));
 
   const applyProps = (): string => {
-    const props = { pkg, version: appPkg.version };
+    const props: Types.InitialProps = {
+      pkg,
+      library: {
+        name: appPkg.name,
+        version: appPkg.version,
+        repository: appPkg.repository,
+      },
+    };
     const template = cacheTemplate ? cacheTemplate : fs.readFileSync(path.join(libDir, "build/index.html"), { encoding: "utf-8" });
     cacheTemplate = template;
     return template.replace("{{ SSR_DOM }}", "").replace("{{ SSR_INITIAL_STATE }}", JSON.stringify(props));
