@@ -1,3 +1,26 @@
+### 0.8.0 (2019-04-06)
+
+##### Documentation Changes
+
+* **image:**  update example image (47b82e45)
+
+##### New Features
+
+* **app:**
+  *  add app info (328a5ad7)
+  *  add app info (c91578c3)
+* **definition:**  add script definitino (9c02fec5)
+* **description:**  add script description (cd412d14)
+* **resize:**  add vertical resize & fork me ribbon (a8dcc219)
+
+##### Refactors
+
+* **tab:**  change tab to space (f9f5699b)
+
+##### Tests
+
+* **update:**  update test (3192e043)
+
 ### 0.3.0 (2019-03-12)
 
 ##### New Features
