@@ -11,60 +11,60 @@
 @import './styles/_flex.scss';
 
 html, body {
-	height: 100%;
+  height: 100%;
 }
 
 
 .nrsc-fork-me {
-	position: fixed;
-	right: 0;
-	top: 0;
-	z-index: 100;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 100;
 }
 
 .nrsc-top-nav {
-	z-index: 50;
-	position: fixed;
+  z-index: 50;
+  position: fixed;
 }
 
 .nrsc-side-nav {
-	z-index: 40;
+  z-index: 40;
 }
 
 .nrsc-wrapper {
-	height: 100%;
+  height: 100%;
 }
 
 .nrsc-main {
-	height: calc(100% - 180px);
+  height: calc(100% - 180px);
 }
 
 .background {
-	background-color: #333;
-	border-radius: 3px;
+  background-color: #333;
+  border-radius: 3px;
 }
 
 .node {
-	fill: white;
-	cursor: pointer;
+  fill: white;
+  cursor: pointer;
 }
 
 .circle {
-	fill: #F3F3FF;
-	stroke: #2593B8;
-	stroke-width: 1.5px;
+  fill: #F3F3FF;
+  stroke: #2593B8;
+  stroke-width: 1.5px;
 }
 
 .text {
-	font-size: 12px;
-	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-	background-color: #444;
-	fill: #F4F4F4;
-	text-shadow: 0 1px 5px black;
+  font-size: 12px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  background-color: #444;
+  fill: #F4F4F4;
+  text-shadow: 0 1px 5px black;
 }
 
 .link {
-	fill: none;
-	stroke: #2593B8;;
-	stroke-width: 1.5px;
+  fill: none;
+  stroke: #2593B8;;
+  stroke-width: 1.5px;
 }
