@@ -1,6 +1,6 @@
 {
   "name": "npm-run-script-chain",
-  "version": "0.7.1",
+  "version": "0.8.0",
   "description": "run-script chain",
   "keywords": [
     "chain",
@@ -10,7 +10,7 @@
   "bugs": {
     "url": "https://github.com/Himenon/npm-run-script-chain/issues"
   },
-  "repository": "Himenon/npm-run-script-chain",
+  "repository": "https://github.com/Himenon/npm-run-script-chain",
   "license": "MIT",
   "author": {
     "name": "Himenon",

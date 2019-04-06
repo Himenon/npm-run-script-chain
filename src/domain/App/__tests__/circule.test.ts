@@ -1,6 +1,6 @@
 jest.unmock("../parser");
+import { Package, TreeData } from "../../../types";
 import { makeChain } from "../parser";
-import { Package, TreeData } from "../types";
 
 describe("Loop Script", () => {
   const packageScript: Package = {
@@ -21,14 +21,17 @@ describe("Loop Script", () => {
   test("npm run a -> b -> a", () => {
     const results: TreeData = {
       name: "a",
+      description: "npm run b",
       children: [],
     };
     const expectValue: TreeData = {
       name: "a",
+      description: "npm run b",
       children: [
         {
           name: "b",
-          children: [{ name: "a", children: [] }],
+          description: "npm run b",
+          children: [{ name: "a", description: "npm run a", children: [] }],
         },
       ],
     };
@@ -39,28 +42,35 @@ describe("Loop Script", () => {
   test("npm run a -> b -> a", () => {
     const results: TreeData = {
       name: "a",
+      description: "",
       children: [],
     };
     const expectValue: TreeData = {
       name: "a",
+      description: "",
       children: [
         {
           name: "build:*",
+          description: "run-p build:*",
           children: [
             {
               name: "build:a",
+              description: "npm run a",
               children: [
                 {
                   name: "a",
+                  description: "npm run a",
                   children: [],
                 },
               ],
             },
             {
               name: "build:b",
+              description: "npm run a",
               children: [
                 {
                   name: "a",
+                  description: "npm run a",
                   children: [],
                 },
               ],

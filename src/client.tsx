@@ -11,10 +11,15 @@ export function initialize() {
     pkg: {
       scripts: {},
     },
+    library: {
+      name: "",
+      version: "",
+      repository: "",
+    },
   };
   const csrProps = getCsrProps();
   const props: Types.InitialProps = !!csrProps ? csrProps : defaultProps;
-  const reducers = Domain.createReducers({ key: "start", pkg: props.pkg });
+  const reducers = Domain.createReducers({ key: "start", pkg: props.pkg, library: props.library });
   const render = !!csrProps ? ReactDOM.render : ReactDOM.render;
   render(<Main.Component reducers={reducers} />, document.getElementById("root"));
 }
