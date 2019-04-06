@@ -12,13 +12,14 @@ const generateTreeData = (name: string, pkg: Types.Package): Types.TreeData => {
   return makeChain(treeData, pkg);
 };
 
-export const generateState = (currentKey: string, pkg: Types.Package): State => {
+export const generateState = (currentKey: string, pkg: Types.Package, library: Types.Library): State => {
   const treeData = generateTreeData(currentKey, pkg);
   const data = d3.hierarchy(treeData);
   const root = d3.tree<Types.TreeData>()(data);
   const nodes = root.descendants();
   const links = root.links();
   return {
+    library,
     npmUrl: "https://www.npmjs.com/package/npm-run-script-chain",
     nodes,
     links,

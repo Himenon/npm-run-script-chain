@@ -22,9 +22,9 @@ export interface Stores {
   };
 }
 
-export const createReducers = ({ key, pkg }: { key: string; pkg: Types.Package }): Reducers => {
+export const createReducers = ({ key, pkg, library }: { key: string; pkg: Types.Package; library: Types.Library }): Reducers => {
   return {
-    app: App.createReducer({ key, pkg }),
+    app: App.createReducer({ key, pkg, library }),
     dendrogram: Dendrogram.createReducer(),
   };
 };

@@ -8,6 +8,7 @@ import { createViewStore, ViewStore } from "./Store";
 
 const generateProps = (stores: Domain.Stores, viewStore: ViewStore): App.Props => {
   return {
+    library: stores.app.state.library,
     currentKey: stores.app.state.currentKey,
     npmUrl: stores.app.state.npmUrl,
     Menu: <Menu.Container store={viewStore.menu} />,

@@ -15,7 +15,7 @@ const WorkboxWebpackPlugin = require("workbox-webpack-plugin");
 const typescriptFormatter = require("react-dev-utils/typescriptFormatter");
 
 export const plugins = {
-  ServerSideRenderingPlugin: () => new ServerSideRenderingPlugin(HtmlWebpackPlugin, "{{ SSR_DOM }}"),
+  ServerSideRenderingPlugin: () => new ServerSideRenderingPlugin(HtmlWebpackPlugin),
   ForkTsCheckerWebpackPlugin: ({
     isEnvDevelopment,
     isEnvProduction,

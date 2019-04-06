@@ -5,6 +5,6 @@ import { renderToString } from "react-dom/server";
 import * as Main from "./Main";
 
 export const generateSsrHtml = (props: Types.InitialProps): string => {
-  const reducers = Domain.createReducers({ key: "start", pkg: props.pkg });
+  const reducers = Domain.createReducers({ key: "start", pkg: props.pkg, library: props.library });
   return renderToString(<Main.Component reducers={reducers} />);
 };

@@ -6,7 +6,7 @@ import { State } from "./State";
 export const reducer = (state: State, action: ActionTypes): State => {
   switch (action.type) {
     case "UPDATE_KEY": {
-      return Factory.generateState(action.currentKey, state.pkg);
+      return Factory.generateState(action.currentKey, state.pkg, state.library);
     }
     default:
       return state;
@@ -15,7 +15,7 @@ export const reducer = (state: State, action: ActionTypes): State => {
 
 export type Reducer = [typeof reducer, State];
 
-export const createReducer = ({ key, pkg }: { key: string; pkg: Types.Package }): Reducer => {
-  const initialState = Factory.generateState(key, pkg);
+export const createReducer = ({ key, pkg, library }: { key: string; pkg: Types.Package; library: Types.Library }): Reducer => {
+  const initialState = Factory.generateState(key, pkg, library);
   return [reducer, initialState];
 };

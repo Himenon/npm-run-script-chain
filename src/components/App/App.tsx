@@ -7,18 +7,22 @@ const styles = require("../../style.scss");
 interface AppProps {
   currentKey: string;
   npmUrl: string;
+  library: {
+    name: string;
+    version: string;
+  };
   Menu: JSX.Element;
   Dendrogram: JSX.Element;
   Description: JSX.Element;
 }
 
-const App = ({ Description, Dendrogram, Menu, npmUrl, currentKey }: AppProps) => {
+const App = ({ Description, Dendrogram, Menu, npmUrl, currentKey, library }: AppProps) => {
   return (
     <>
       <ForkMe url="https://github.com/Himenon/npm-run-script-chain" className={styles.nrscForkMe} />
       <nav className={getClassNames("navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow nrsc-top-nav")}>
         <a className={getClassNames("navbar-brand col-sm-3 col-md-2 mr-0")} href={npmUrl} target="_blank" rel="noopener">
-          npm-run-script-chain
+          {library.name} v{library.version}
         </a>
       </nav>
       <div className={getClassNames("container-fluid nrsc-container")}>
