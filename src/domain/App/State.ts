@@ -7,4 +7,5 @@ export interface State {
   scripts: string[];
   links: Types.Link[];
   nodes: Types.Node[];
+  treeData: Types.TreeData;
 }

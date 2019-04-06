@@ -6,6 +6,7 @@ export interface Package {
 
 export interface TreeData {
   name: string;
+  description: string;
   children: TreeData[];
 }
 

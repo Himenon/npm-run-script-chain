@@ -3,13 +3,13 @@ import * as d3 from "d3";
 import { makeChain } from "./parser";
 import { State } from "./State";
 
-const generateTreeData = (start: string, pkg: Types.Package): Types.TreeData => {
+const generateTreeData = (name: string, pkg: Types.Package): Types.TreeData => {
   const treeData: Types.TreeData = {
-    name: start,
+    name,
+    description: pkg.scripts[name] || "",
     children: [],
   };
-  makeChain(treeData, pkg);
-  return treeData;
+  return makeChain(treeData, pkg);
 };
 
 export const generateState = (currentKey: string, pkg: Types.Package): State => {
@@ -25,5 +25,6 @@ export const generateState = (currentKey: string, pkg: Types.Package): State => 
     currentKey,
     pkg,
     scripts: Object.keys(pkg.scripts),
+    treeData,
   };
 };
