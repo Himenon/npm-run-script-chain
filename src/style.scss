@@ -14,7 +14,6 @@ html, body {
   height: 100%;
 }
 
-
 .nrsc-fork-me {
   position: fixed;
   right: 0;
@@ -31,12 +30,26 @@ html, body {
   z-index: 40;
 }
 
+.nrsc-container {
+  top: 48px;
+  height: calc(100% - 48px);
+  position: relative;
+}
+
 .nrsc-wrapper {
   height: 100%;
 }
 
 .nrsc-main {
-  height: calc(100% - 180px);
+  height: calc(80% - 180px);
+}
+
+.nrsc-bottom {
+  padding-top: 0.5em;
+  height: 25%;
+  overflow-y: scroll;
+  display: block;
+  border-top: 4px double $gray-300;
 }
 
 .background {

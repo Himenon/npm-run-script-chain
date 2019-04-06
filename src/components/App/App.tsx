@@ -9,9 +9,10 @@ interface AppProps {
   npmUrl: string;
   Menu: JSX.Element;
   Dendrogram: JSX.Element;
+  Description: JSX.Element;
 }
 
-const App = ({ Dendrogram, Menu, npmUrl, currentKey }: AppProps) => {
+const App = ({ Description, Dendrogram, Menu, npmUrl, currentKey }: AppProps) => {
   return (
     <>
       <ForkMe url="https://github.com/Himenon/npm-run-script-chain" className={styles.nrscForkMe} />
@@ -20,10 +21,10 @@ const App = ({ Dendrogram, Menu, npmUrl, currentKey }: AppProps) => {
           npm-run-script-chain
         </a>
       </nav>
-      <div className={getClassNames("container-fluid nrsc-wrapper")}>
+      <div className={getClassNames("container-fluid nrsc-container")}>
         <div className={getClassNames("row nrsc-wrapper")}>
           <nav className={getClassNames("col-md-2 d-none d-md-block bg-light sidebar nrsc-side-nav")}>
-            <div className={styles["sidebar-sticky"]}>{Menu}</div>
+            <div className={getClassNames("sidebar-sticky")}>{Menu}</div>
           </nav>
           <main className={getClassNames("col-md-9 ml-sm-auto col-lg-10 px-4 nrsc-main")}>
             <div
@@ -36,6 +37,7 @@ const App = ({ Dendrogram, Menu, npmUrl, currentKey }: AppProps) => {
             {Dendrogram}
           </main>
         </div>
+        <div className={getClassNames("col-md-9 ml-sm-auto col-lg-10 px-4 fixed-bottom nrsc-bottom")}>{Description}</div>
       </div>
     </>
   );

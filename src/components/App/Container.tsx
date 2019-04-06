@@ -1,5 +1,6 @@
 import * as Domain from "@domain";
 import * as React from "react";
+import * as Definition from "../Definition";
 import * as Dendrogram from "../Dendrogram";
 import * as Menu from "../Menu";
 import * as App from "./App";
@@ -9,8 +10,9 @@ const generateProps = (stores: Domain.Stores, viewStore: ViewStore): App.Props =
   return {
     currentKey: stores.app.state.currentKey,
     npmUrl: stores.app.state.npmUrl,
-    Menu: <Menu.Container store={viewStore.menuStore} />,
+    Menu: <Menu.Container store={viewStore.menu} />,
     Dendrogram: <Dendrogram.Container store={viewStore.dendrogram} />,
+    Description: <Definition.Container store={viewStore.description} />,
   };
 };
 
