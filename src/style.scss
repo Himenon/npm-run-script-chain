@@ -10,6 +10,35 @@
 @import "./styles/_display.scss";
 @import './styles/_flex.scss';
 
+html, body {
+	height: 100%;
+}
+
+
+.nrsc-fork-me {
+	position: fixed;
+	right: 0;
+	top: 0;
+	z-index: 100;
+}
+
+.nrsc-top-nav {
+	z-index: 50;
+	position: fixed;
+}
+
+.nrsc-side-nav {
+	z-index: 40;
+}
+
+.nrsc-wrapper {
+	height: 100%;
+}
+
+.nrsc-main {
+	height: calc(100% - 180px);
+}
+
 .background {
 	background-color: #333;
 	border-radius: 3px;
